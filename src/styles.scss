@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600&family=Inconsolata:wght@300;400&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "assets/normalize.css";
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+:root {
+    --money-color: #62993E;
+    --tons-color: #5089BC;
+}

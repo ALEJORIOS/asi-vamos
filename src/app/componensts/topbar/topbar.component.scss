@@ -1,0 +1,25 @@
+nav {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3rem;
+    background-color: #FAFAFC;
+    box-shadow: 0 0 4px 4px #F0F0F0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    h3 {
+        margin: 0;
+        font-size: 1.4rem;
+    }
+    button {
+        border: none;
+        border-radius: 8px;
+        color: white;
+        background-color: #1199f4;
+        padding: 6px 9px;
+        cursor: pointer;
+        box-shadow: 0 0 3px 2px #bec8d4;
+    }
+}

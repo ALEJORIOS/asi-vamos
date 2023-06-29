@@ -1,0 +1,21 @@
+<div *ngIf="showBox" class="background">
+    <div *ngIf="showBox" class="box" #box>
+        <filter-box-header (closeEmitter)="close($event)">
+            Filtros
+        </filter-box-header>
+        <filter-box-body>
+            <accordion>
+                <section *ngFor="let segment of data.Segmentacion">
+                    <div class="title">{{ segment.Segmento }}</div>
+                    <div class="content">
+                        <div>
+                            <label *ngFor="let value of segment.Valores"><input type="checkbox">{{ value.Valor }}</label>
+                        </div>
+                    </div>
+                </section>
+            </accordion>
+        </filter-box-body>
+        <filter-box-footer>
+        </filter-box-footer>
+    </div>
+</div>

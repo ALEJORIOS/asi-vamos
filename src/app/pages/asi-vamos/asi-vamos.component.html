@@ -1,7 +1,65 @@
+<top-bar [date]="currentDate"></top-bar>
 <div class="layout">
-    <div class="card large"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
+    <div class="card main">
+        <canvas #summaryPriceChart>
+        </canvas>
+        <div class="info">
+            <div class="title">
+                <div class="icon icon-money">
+                    <i class="fa-duotone fa-cart-shopping" style="--fa-primary-color: #ffffff; --fa-secondary-color: #ffffff;"></i>
+                </div>
+                <h3>Ventas en $MM</h3>
+            </div>
+            <div class="data">
+                <div class="value">
+                    <h3>{{ valueMoneyCurrent | number: "1.0-0" }}</h3>
+                    <span>{{ currentDate | date: 'MMMM yyyy' }}</span>
+                </div>
+                <hr>
+                <div class="value">
+                    <h3>{{ valueMoneyBudget | number: "1.0-0" }}</h3>
+                    <span>Presupuesto</span>
+                </div>
+            </div>
+            <blockquote>Debemos ir al 83%</blockquote>
+        </div>
+    </div>
+    <div class="card main">
+        <canvas #summaryTonsChart>
+        </canvas>
+        <div class="info">
+            <div class="title">
+                <div class="icon icon-ton">
+                    <i class="fa-duotone fa-truck" style="--fa-primary-color: #ffffff; --fa-secondary-color: #ffffff;"></i>
+                </div>
+                <h3>Toneladas</h3>
+            </div>
+            <div class="data">
+                <div class="value">
+                    <h3>{{ valueTonsCurrent | number: "1.0-0" }}</h3>
+                    <span>{{ currentDate.getTime() | date: 'MMMM yyyy' }}</span>
+                </div>
+                <hr>
+                <div class="value">
+                    <h3>{{ valueTonsBudget | number: "1.0-0" }}</h3>
+                    <span>Presupuesto</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card comparative">
+        <h3>Comparativa de ventas en millones</h3>
+        <div class="chart">
+            <canvas #comparativePriceChart>
+            </canvas>
+        </div>
+    </div>
+    <div class="card comparative">
+        <h3>Comparativa de toneladas despachadas</h3>
+        <div class="chart">
+            <canvas #comparativeTonsChart>
+            </canvas>
+        </div>
+    </div>
+
 </div>

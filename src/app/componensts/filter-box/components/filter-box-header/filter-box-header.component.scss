@@ -1,0 +1,19 @@
+.header {
+    font-size: 22px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d0d0d0;
+    // user-select: none;
+    &:hover {
+        cursor: move;
+    }
+    .close {
+        border: none;
+        background-color: transparent;
+        width: 32px;
+        img {
+            width: 100%;
+        }
+    }
+}

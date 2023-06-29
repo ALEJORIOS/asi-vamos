@@ -1,0 +1,14 @@
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+    border-top: 1px solid #D0D0D0;
+    .apply {
+        border: none;
+        border-radius: 8px;
+        background-color: rgb(42, 102, 255);
+        color: white;
+        padding: 4px 16px;
+        font-weight: 500;
+    }
+}

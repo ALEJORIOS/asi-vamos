@@ -1,0 +1,15 @@
+
+
+.box {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    button {
+        border: none;
+        border-radius: 4px;
+        background-color: rgb(20, 171, 61);
+        color: white;
+        font-weight: 500;
+        width: fit-content;
+        justify-self: flex-end;
+    }
+}
