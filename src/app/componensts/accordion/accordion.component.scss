@@ -1,0 +1,64 @@
+::ng-deep {
+    section {
+        border-bottom: 1px solid #F0F0F0;
+        .title {
+            color: #101010;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+        }
+        .content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 200ms;
+            padding-left: 12px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            padding-right: 4px;
+            div {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                label {
+                    user-select: none;
+                    padding-right: 8px;
+                    input[type=checkbox] {
+                        margin-right: 4px;
+                    }
+                }
+            }
+        }
+        .show {
+            display: grid;
+            grid-template-rows: 1fr;
+        }
+        &:last-child {
+            border: none;
+        }
+    }
+}
+
+@media (min-width: 850px) {
+    ::ng-deep {
+        accordion {
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            flex-wrap: wrap;
+            section {
+                border: none;
+                .content {
+                    border: 1px solid #B0B0B0;
+                    border-radius: 6px;
+                    height: 180px;
+                    grid-template-rows: 1fr;
+                    div {
+                        overflow: auto;
+                    }
+                }
+            }
+        }
+    }
+    
+}
