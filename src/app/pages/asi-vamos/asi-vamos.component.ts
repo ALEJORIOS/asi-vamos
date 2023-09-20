@@ -8,6 +8,8 @@ import { CrudService } from 'src/app/config/crud.service';
 import { FormatService } from 'src/app/services/format.service';
 import { combineLatest } from 'rxjs';
 import { TopbarComponent } from 'src/app/componensts/topbar/topbar.component';
+import { FilterBoxComponent } from 'src/app/componensts/filter-box/filter-box.component';
+import { DataActions } from 'src/app/services/asi-vamos.service';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -16,7 +18,7 @@ registerLocaleData(localeEs, 'es');
   templateUrl: './asi-vamos.component.html',
   styleUrls: ['./asi-vamos.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
-  imports: [CommonModule, TopbarComponent]
+  imports: [CommonModule, TopbarComponent, FilterBoxComponent]
 })
 export default class AsiVamosComponent implements AfterViewInit {
 
@@ -37,121 +39,104 @@ export default class AsiVamosComponent implements AfterViewInit {
   valueMoneyBudget: number = 0;
   valueTonsCurrent: number = 0;
   valueTonsBudget: number = 0;
-  averageMoney: string = "0";
-  averageTons: string = "0";
+  averageMoney: number = 0;
+  averageTons: number = 0;
 
   valueComparisonMoneyCurrent: number[] = [];
   valueComparisonMoneyPast: number[] = [];
   valueComparisonTonsCurrent: number[] = [];
   valueComparisonTonsPast: number[] = [];
 
-  constructor(private gridService: CrudService, private formatService: FormatService) {
-    this.getSummaryData();
-    this.getComparativeData(formatService.getPastMonths(this.currentDate, 12).dates);
+  dataActions: any = {};
 
+  records = [    
+    {
+      TonMes: 1,
+      TonMesPpto: 1,
+      TonMesAAnt: 1,
+      TonAcum: 1,
+      TonAcumPpto: 1,
+      TonAcumAAnt: 1,
+      ValorMes: 1,
+      ValorPpto: 1,
+      ValorMesAAnt: 1,
+      ValorAcum: 1,
+      ValorAcumPpto: 1,
+      ValorAcumAAnt: 1,
+      ValorPedPend: 1,
+      PlanDUni: 1,
+      PlanDValor: 1,
+      Devolucion: 1,
+      NotaCredito: 1,
+      CodCausalNC: 1,
+      CausalNC: 1
+    }
+  ]
+
+  constructor(private gridService: CrudService, private formatService: FormatService) {
+    this.getAllData();
   }
 
-  getSummaryData() {
+  getAllData() {
     const requestBody: any = {
       id: "asivamos_list",
-      take: 1,
-      skip: 0,
+      take: 0,
       filter: [
         {
           field: "Periodo",
-          condition: `= '${this.formatService.formatDate(this.currentDate, true, true)}'`
-        }
-      ],
-      aggregate: [
-        {
-          field: "VlrMesAct",
-          function: "SUM"
-        },
-        {
-          field: "VlrMesPpt",
-          function: "SUM"
-        },
-        {
-          field: "TonMesAct",
-          function: "SUM"
-        },
-        {
-          field: "TonMesPpt",
-          function: "SUM"
+          condition: "= '2023-09-01'"
         }
       ]
     }
     this.gridService.getData(requestBody).subscribe({
       next: (res) => {
-        this.valueMoneyCurrent = res.aggregate[0].value;
-        this.valueMoneyBudget = res.aggregate[1].value;
-        this.valueTonsCurrent = res.aggregate[2].value;
-        this.valueTonsBudget = res.aggregate[3].value;
-        this.averageMoney = String(this.valueMoneyCurrent * 100 / this.valueMoneyBudget);
-        this.averageTons = String(this.valueTonsCurrent * 100 / this.valueTonsBudget);
-        this.updateSummaryCharts();
+        this.updateData(res);
+        this.updateComparativeData(res, this.formatService.getPastMonths(this.currentDate, 12).dates);
+        console.log('last: ', res.rows.at(-1));
       }
     })
   }
 
-  getComparativeData(dates: string[]) {
-    const observables: any = [];
-    dates.forEach((date: string) => {
-      const requestBody: any = {
-        id: "asivamos_list",
-        take: 1,
-        filter: [
-          {
-            field: "Periodo",
-            condition: `= '${date}'`
-          }
-        ],
-        aggregate: [
-          {
-            field: "VlrMesAct",
-            function: "SUM"
-          },
-          {
-            field: "VlrMesAnt",
-            function: "SUM"
-          },
-          {
-            field: "TonMesAct",
-            function: "SUM"
-          },
-          {
-            field: "TonMesAnt",
-            function: "SUM"
-          }
-        ]
-      }
-      observables.push(this.gridService.getData(requestBody))
-    })
-    const allObservables: any = combineLatest(observables);
-    allObservables.subscribe({
-      next: (res: any) => {
-        this.valueComparisonMoneyCurrent = res.map((record: any) => {
-          return record.aggregate[0].value;
-        })
-        this.valueComparisonMoneyPast = res.map((record: any) => {
-          return record.aggregate[1].value;
-        })
-        this.valueComparisonTonsCurrent = res.map((record: any) => {
-          return record.aggregate[2].value;
-        })
-        this.valueComparisonTonsPast = res.map((record: any) => {
-          return record.aggregate[3].value;
-        })
-        this.updateComparisonCharts();
-      }
-    })
+  
+
+  process(rawData: any) {
+
+  }
+
+  updateData(res: any) {
+    this.dataActions = new DataActions(res.rows);
+    const date: string = `${this.formatService.formatDate(this.currentDate, true, true)}`;
+    // const date: string = "2023-09-01";
+    this.valueMoneyCurrent = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "ValorMes");
+    this.valueMoneyBudget = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "ValorPpto");
+    this.valueTonsCurrent = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "TonMes");
+    this.valueTonsBudget = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "TonMesPpto");
+    this.averageMoney = Math.round(this.valueMoneyCurrent * 100 / this.valueMoneyBudget);
+    this.averageTons = Math.round(this.valueTonsCurrent * 100 / this.valueTonsBudget);
+    this.updateSummaryCharts();
+  }
+
+  updateComparativeData(res: any, months: any[]) {
+    this.valueComparisonMoneyCurrent = [];
+    this.valueComparisonMoneyPast = [];
+    this.valueComparisonTonsCurrent = [];
+    this.valueComparisonTonsPast = [];
+    const dataActions = new DataActions(res.rows);
+    months.forEach(month => {
+      // console.log('Month: ', month);
+      // console.log('>>> ', dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorMes"));
+      this.valueComparisonMoneyCurrent.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorMes"))
+      this.valueComparisonMoneyPast.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorPpto"))
+      this.valueComparisonTonsCurrent.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "TonMes"))
+      this.valueComparisonTonsPast.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "TonMesPpto"))
+    });
   }
 
   updateSummaryCharts() {
     this.generalMoneyChart.data.datasets[0].data = [this.valueMoneyCurrent, this.valueMoneyBudget-this.valueMoneyCurrent]
     this.generalTonsChart.data.datasets[0].data = [this.valueTonsCurrent, this.valueTonsBudget-this.valueTonsCurrent]
-    this.generalMoneyChart.config.options.elements.center.text = this.averageMoney.substring(0,2).padStart(2,"0")+"%";
-    this.generalTonsChart.config.options.elements.center.text = this.averageTons.substring(0,2).padStart(2,"0")+"%";
+    this.generalMoneyChart.config.options.elements.center.text = String(this.averageMoney).padStart(2,"0")+"%";
+    this.generalTonsChart.config.options.elements.center.text = String(this.averageTons).padStart(2,"0")+"%";
     this.generalMoneyChart.update();
     this.generalTonsChart.update(); 
   }
@@ -184,6 +169,7 @@ export default class AsiVamosComponent implements AfterViewInit {
       },
       options: {
         cutout: 30,
+        responsive: true,
         elements: {
           center: {
             text: this.averageMoney+"%",
@@ -233,63 +219,63 @@ export default class AsiVamosComponent implements AfterViewInit {
     });
   }
 
-  drawComparisonCharts() {
-    this.generalComparativePriceChart = new charts.Chart(this.comparativePriceChart.nativeElement, {
-      type: 'line',
-      data: {
-        labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-        datasets: [{
-          label: "Año Actual",
-          data: [0,0,0,0,0,0,0,0,0,0,0,0],
-          borderColor: '#62993E',
-          fill: true,
-          backgroundColor: '#62993E90',
-          tension: 0.1
-        },
-        {
-          label: "Año Anterior",
-          data: [0,0,0,0,0,0,0,0,0,0,0,0],
-          borderColor: '#A1C490',
-          tension: 0.1
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        // aspectRatio: 3/1
-      }
-    })
+  // drawComparisonCharts() {
+  //   this.generalComparativePriceChart = new charts.Chart(this.comparativePriceChart.nativeElement, {
+  //     type: 'line',
+  //     data: {
+  //       labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+  //       datasets: [{
+  //         label: "Año Actual",
+  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
+  //         borderColor: '#62993E',
+  //         fill: true,
+  //         backgroundColor: '#62993E90',
+  //         tension: 0.1
+  //       },
+  //       {
+  //         label: "Año Anterior",
+  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
+  //         borderColor: '#A1C490',
+  //         tension: 0.1
+  //       }]
+  //     },
+  //     options: {
+  //       maintainAspectRatio: false,
+  //       responsive: true,
+  //       // aspectRatio: 3/1
+  //     }
+  //   })
 
-    this.generalComparativeTonsChart = new charts.Chart(this.comparativeTonsChart.nativeElement, {
-      type: 'line',
-      data: {
-        labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-        datasets: [{
-          label: "Año Actual",
-          data: [0,0,0,0,0,0,0,0,0,0,0,0],
-          borderColor: '#5089BC',
-          fill: true,
-          backgroundColor: '#5089BC90',
-          tension: 0.1
-        },
-        {
-          label: "Año Anterior",
-          data: [0,0,0,0,0,0,0,0,0,0,0,0],
-          borderColor: '#97B9E0',
-          tension: 0.1
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        // aspectRatio: 3/1
-      }
-    })
-  }
+  //   this.generalComparativeTonsChart = new charts.Chart(this.comparativeTonsChart.nativeElement, {
+  //     type: 'line',
+  //     data: {
+  //       labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+  //       datasets: [{
+  //         label: "Año Actual",
+  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
+  //         borderColor: '#5089BC',
+  //         fill: true,
+  //         backgroundColor: '#5089BC90',
+  //         tension: 0.1
+  //       },
+  //       {
+  //         label: "Año Anterior",
+  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
+  //         borderColor: '#97B9E0',
+  //         tension: 0.1
+  //       }]
+  //     },
+  //     options: {
+  //       maintainAspectRatio: false,
+  //       responsive: true,
+  //       // aspectRatio: 3/1
+  //     }
+  //   })
+  // }
 
   ngAfterViewInit() {
     this.drawSummaryCharts();
-    this.drawComparisonCharts();
+    // this.drawComparisonCharts();
   }
 }
 
@@ -378,3 +364,26 @@ charts.register({
     }
   }
 })
+
+interface FormattedData {
+  mesNacional: MesActual,
+  mesExportaciones: MesActual,
+  ppNal: MesActual,
+  ppExp: MesActual
+}
+
+interface MesActual {
+  consumoMasivo: any;
+  industria: any;
+}
+
+interface NotasCredito {
+  causal: Causal;
+}
+
+interface Causal {
+  comercial: any;
+  operacion: any;
+  logistica: any;
+  sinDefinir: any;
+}

@@ -1,8 +1,8 @@
-import { Component, computed, DoCheck, effect, ElementRef, HostListener, Input, OnChanges, signal, Signal, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, computed, DoCheck, effect, ElementRef, HostListener, Input, OnChanges, signal, Signal, SimpleChanges, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule, getLocaleDateFormat } from '@angular/common';
 import { FilterBoxModule } from './components/filter-box.module';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
-import { AccordionComponent } from 'src/app/shared/components/accordion/accordion.component';
+import { AccordionComponent } from '../accordion/accordion.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilterBoxHeaderComponent } from './components/filter-box-header/filter-box-header.component';
 
@@ -15,7 +15,7 @@ import { FilterBoxHeaderComponent } from './components/filter-box-header/filter-
 })
 export class FilterBoxComponent implements DoCheck {
 
-  @Input("signal") sig: any;
+  @Input("signal") sig!: WritableSignal<any>;
 
   showBox: boolean = false;
 
@@ -26,7 +26,9 @@ export class FilterBoxComponent implements DoCheck {
 
   dragging: boolean = false;
 
-  @ViewChild('box') box!: ElementRef;
+  maintainBoxRef:  any;
+
+  @ViewChild('box', {static: false}) box!: ElementRef;
 
   constructor(private httpClient: HttpClient) {
 
@@ -65,7 +67,7 @@ export class FilterBoxComponent implements DoCheck {
 
   @HostListener('window:mousemove', ['$event'])
   onDrag(event: any) {
-    if(this.dragging) {
+    if(this.dragging && this.box) {
       this.activeCoords[0] = this.endCoords[0] + event.screenX - this.initialCoords[0];
       this.activeCoords[1] = this.endCoords[1] + event.screenY - this.initialCoords[1];
       this.box.nativeElement.style.left = this.activeCoords[0] + "px";

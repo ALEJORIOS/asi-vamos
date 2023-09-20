@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
+import { AsiVamosService } from './services/asi-vamos.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'asi_vamos';
+
+  constructor(public asiVamosService: AsiVamosService) {
+    effect(() => {
+      console.log("SeñalApp: ", asiVamosService.filterStatus());
+    })
+  }
 }

@@ -14,6 +14,7 @@ export class FilterHeaderComponent {
 
   doSomething() {
     this.sig.mutate((currentValue: any) => currentValue.open = true)
+    console.log('>>> Entra');
   }
 
   constructor() {

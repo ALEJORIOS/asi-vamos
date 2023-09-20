@@ -1,5 +1,5 @@
 <nav>
     <h3>Así Vamos</h3>
     <time>{{ date | date: 'dd MMMM YYYY' }}</time>
-    <button>Filtrar datos</button>
+    <button (click)="setFilterOpen(true)">Filtrar datos</button>
 </nav>

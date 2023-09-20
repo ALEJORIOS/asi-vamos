@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsiVamosService {
 
+  public filterStatus: WritableSignal<FilterData> = signal({open: false, noElements: 0, filters: []});
 
 }
 
 export class DataObject {
   _data: any = [];
+  
+
   constructor(data: any) {
     this._data = data;
   }
@@ -25,5 +28,36 @@ export class DataObject {
 
   getAvailableDays() {
     const holidays = [];
+  }
+}
+
+interface FilterData {
+  open: boolean,
+  noElements: number,
+  filters: any
+}
+
+
+export class DataActions {
+  private dataObj: any;
+  constructor(dataObj: any) {
+    this.dataObj = dataObj;
+  }
+
+  filterAndOperate(filters: any[], operation: any, field: string) {
+    return this.sum(this.filter(filters), field);
+  }
+
+  filter(filters: any[]) {
+    const filterCriteria = (rec: any): boolean => {
+      return filters.every(flt => {
+        return rec[flt.field] === flt.value;
+      });
+    }
+    return this.dataObj.filter(filterCriteria);
+  }
+
+  sum(records: any[], field: string) {
+    return records.reduce((acc, cv) => acc + cv[field], 0);
   }
 }

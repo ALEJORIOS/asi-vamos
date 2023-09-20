@@ -7,6 +7,8 @@ export class ConfigService {
 
   url: string = "https://www.brinsadigital.com.co/api-datax"
 
+  
+
   constructor() { }
 }
 
