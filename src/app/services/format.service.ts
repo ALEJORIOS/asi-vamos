@@ -10,15 +10,15 @@ export class FormatService {
   formatDate(date: Date, backward: boolean = false, firstDay: boolean = false) {
     if(firstDay) {
       if(backward) {
-        return `${String(date.getFullYear())}-${String(date.getMonth()+1).padStart(2,"0")}-01`;
+        return `${String(date.getFullYear())}-${String(date.getMonth()).padStart(2,"0")}-01`;
       }else{
-        return `01-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getFullYear())}`;
+        return `01-${String(date.getMonth()).padStart(2,"0")}-${String(date.getFullYear())}`;
       }
     }else{
       if(backward) {
-        return `${String(date.getFullYear())}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2, "0")}`;
+        return `${String(date.getFullYear())}-${String(date.getMonth()).padStart(2,"0")}-${String(date.getDate()).padStart(2, "0")}`;
       }else{
-        return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getFullYear())}`;
+        return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth()).padStart(2,"0")}-${String(date.getFullYear())}`;
       }
 
     }

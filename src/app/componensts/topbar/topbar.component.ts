@@ -16,9 +16,6 @@ export class TopbarComponent {
 
   constructor(private asiVamosService: AsiVamosService) {
 
-    effect(() => {
-      console.log("Señal: ", asiVamosService.filterStatus());
-    })
   }
 
   @Input('date') date!: Date;

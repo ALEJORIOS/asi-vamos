@@ -1,6 +1,6 @@
 <top-bar [date]="currentDate"></top-bar>
 <div class="layout">
-    <div class="card main">
+    <div *ngIf="!rotateTable" class="card main">
         <div class="summaryChart">
             <canvas #summaryPriceChart></canvas>
         </div>
@@ -22,10 +22,9 @@
                     <span>Presupuesto</span>
                 </div>
             </div>
-            <blockquote>Debemos ir al 83%</blockquote>
         </div>
     </div>
-    <div class="card main">
+    <div *ngIf="!rotateTable" class="card main">
         <div class="summaryChart">
             <canvas #summaryTonsChart></canvas>
         </div>
@@ -49,177 +48,163 @@
             </div>
     </div>
     </div>
-    <div class="card table">
-        <h3>Mes Actual Nacional</h3>
-        <div class="buttonGroup">
-            <button>Canal</button>
-            <button>Subcanal</button>
-            <button>Linea</button>
-            <button>Segmento</button>
-            <button>Vendedor</button>
-            <button>Cliente</button>
-            <button>Producto</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Geografía</th>
-                    <th style="text-align: end;">TonMes</th>
-                    <th style="text-align: end;">TonMesPpto</th>
-                    <th style="text-align: end;">TonMesAAnt</th>
-                    <th style="text-align: end;">TonAcum</th>
-                    <th style="text-align: end;">TonAcumPpto</th>
-                    <th style="text-align: end;">TonAcumAAnt</th>
-                    <!-- <th style="text-align: end;">ValorMes</th>
-                    <th style="text-align: end;">ValorPpto</th>
-                    <th style="text-align: end;">ValorMesAAnt</th>
-                    <th style="text-align: end;">ValorAcum</th>
-                    <th style="text-align: end;">ValorAcumPpto</th>
-                    <th style="text-align: end;">ValorAcumAAnt</th>
-                    <th style="text-align: end;">ValorPedPend</th>
-                    <th style="text-align: end;">PlanDUni</th>
-                    <th style="text-align: end;">PlanDValor</th>
-                    <th style="text-align: end;">Devolucion</th>
-                    <th style="text-align: end;">NotaCredito</th>
-                    <th style="text-align: end;">CodCausalNC</th>
-                    <th style="text-align: end;">CausalNC</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let record of records">
-                    <td>NACIONAL</td>
-                    <td style="text-align: end;">{{ record.TonMes }}</td>
-                    <td style="text-align: end;">{{ record.TonMesPpto }}</td>
-                    <td style="text-align: end;">{{ record.TonMesAAnt }}</td>
-                    <td style="text-align: end;">{{ record.TonAcum }}</td>
-                    <td style="text-align: end;">{{ record.TonAcumPpto }}</td>
-                    <td style="text-align: end;">{{ record.TonAcumAAnt }}</td>
-                    <!-- <td style="text-align: end;">{{ record.ValorMes }}</td>
-                    <td style="text-align: end;">{{ record.ValorPpto }}</td>
-                    <td style="text-align: end;">{{ record.ValorMesAAnt }}</td>
-                    <td style="text-align: end;">{{ record.ValorAcum }}</td>
-                    <td style="text-align: end;">{{ record.ValorAcumPpto }}</td>
-                    <td style="text-align: end;">{{ record.ValorAcumAAnt }}</td>
-                    <td style="text-align: end;">{{ record.ValorPedPend }}</td>
-                    <td style="text-align: end;">{{ record.PlanDUni }}</td>
-                    <td style="text-align: end;">{{ record.PlanDValor }}</td>
-                    <td style="text-align: end;">{{ record.Devolucion }}</td>
-                    <td style="text-align: end;">{{ record.NotaCredito }}</td>
-                    <td style="text-align: end;">{{ record.CodCausalNC }}</td>
-                    <td style="text-align: end;">{{ record.CausalNC }}</td> -->
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>Totales</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <!-- <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td>
-                    <td style="text-align: end;">45.725.706</td> -->
-                </tr>
-            </tfoot>
-        </table>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Ventas $MM</th>
-                    <th>Mes Actual</th>
-                    <th>Ppto</th>
-                    <th style="width: 110px;">%Cumplimiento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="tableTitle">
-                    <td>Consumo Masivo</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "CONSUMO MASIVO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "CONSUMO MASIVO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "CONSUMO MASIVO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "CONSUMO MASIVO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td class="categ">Productos Alimenticios</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td>BRINSA</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}, {field: "Marca", value: "BRINSA"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}, {field: "Marca", value: "BRINSA"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"}, {field: "Marca", value: "BRINSA"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS ALIMENTICIOS"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "BRINSA"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td class="categ">Productos de Aseo</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td>BRINSA</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "BRINSA"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "BRINSA"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "BRINSA"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Marca", value: "BRINSA"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td>MARCAS PROPIAS</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "MARCAS PROPIAS"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "MARCAS PROPIAS"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Geografia", value: "NACIONAL"},{field: "Marca", value: "MARCAS PROPIAS"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Division", value: "PRODUCTOS DE ASEO"},{field: "Marca", value: "MARCAS PROPIAS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr class="tableTitle">
-                    <td>Industria</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td class="categ">Quimicos</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td>BRINSA</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "QUIMICOS"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td class="categ">Sales</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-                <tr>
-                    <td>BRINSA</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Negocio", value: "INDUSTRIA"},{field: "Division", value: "SALES"},{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr style="font-weight: 600;">
-                    <td>TOTAL</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes") | number:"1.0-0"}}</td>
-                    <td>{{ this.dataActions?.filterAndOperate([{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto") | number:"1.0-0"}}</td>
-                    <td>{{( this.dataActions?.filterAndOperate([{field: "Geografia", value: "NACIONAL"}], "sum", "ValorMes"))/( this.dataActions?.filterAndOperate([{field: "Geografia", value: "NACIONAL"}], "sum", "ValorPpto")) | percent: "1.1-1"}}</td>
-                </tr>
-            </tfoot>
-        </table> -->
+    <div class="card table" [ngClass]="{'table-rotate': rotateTable}">
+
+        <section>
+            <!-- <button (click)="rotate()">Rotate</button> -->
+            <div class="title">
+                <h3 style="margin: 0; justify-self: center;">Mes Actual Nacional</h3>
+                <div ngbDropdown container="body" class="d-inline-block dropdown">
+                    <div class="actionGroup">
+                        <button type="button" class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>
+                            Columnas
+                        </button>
+                        <div class="filters" (mouseenter)="showFiltersBoxPreview()" (mouseleave)="hideFiltersBoxPreview()">
+                            <button type="button" class="btn btn-outline-primary" (click)="openFilters()">
+                                Filtrar
+                            </button>
+                            <div class="box" *ngIf="showFilters">
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Canal?.length">
+                                    <div class="title">Canal</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Canal">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Subcanal?.length">
+                                    <div class="title">Subcanal</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Subcanal">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Linea?.length">
+                                    <div class="title">Línea</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Linea">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Segmento?.length">
+                                    <div class="title">Segmento</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Segmento">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Vendedor?.length">
+                                    <div class="title">Vendedor</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Vendedor">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Cliente?.length">
+                                    <div class="title">Cliente</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Cliente">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Producto?.length">
+                                    <div class="title">Producto</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Producto">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.Marca?.length">
+                                    <div class="title">Marca</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.Marca">{{ filter }}</span>
+                                    </div>
+                                </div>
+                                <div class="categFlt" *ngIf="filters?.Filtro?.UEN?.length">
+                                    <div class="title">UEN</div>
+                                    <div class="categContent">
+                                        <span *ngFor="let filter of filters?.Filtro?.UEN">{{ filter }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" (click)="removeFilter()">
+                            Limpiar
+                        </button>
+                        <!-- <button (click)="setFilterOpen(true)">Filtrar datos</button> -->
+                    </div>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <div class="d-flex gap-5 px-3 py-2">
+                            <div class="d-flex flex-column">
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" type="checkbox" class="form-check-input"/>&nbsp;Valor</label><div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label><div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label><div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" type="checkbox" class="form-check-input"/>&nbsp;Plan Desarrollo</label><div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section>
+                <div class="buttonGroup">
+                    <button (click)="setCurrent('Canal')" [ngClass]="{'current': currentActive === 'Canal'}">Canal <i *ngIf="loading.Canal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Subcanal')" [ngClass]="{'current': currentActive === 'Subcanal'}">Subcanal <i *ngIf="loading.Subcanal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Linea')" [ngClass]="{'current': currentActive === 'Linea'}">Línea <i *ngIf="loading.Linea" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Segmento')" [ngClass]="{'current': currentActive === 'Segmento'}">Segmento <i *ngIf="loading.Segmento" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Vendedor')" [ngClass]="{'current': currentActive === 'Vendedor'}">Vendedor <i *ngIf="loading.Vendedor" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Cliente')" [ngClass]="{'current': currentActive === 'Cliente'}">Cliente <i *ngIf="loading.Cliente" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Producto')" [ngClass]="{'current': currentActive === 'Producto'}">Producto <i *ngIf="loading.Producto" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Marca')" [ngClass]="{'current': currentActive === 'Marca'}">Marca <i *ngIf="loading.Marca" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('UEN')" [ngClass]="{'current': currentActive === 'UEN'}">UEN <i *ngIf="loading.UEN" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                </div>
+                <div class="content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="rb">Agrupación</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;">ValorMes</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;">ValorPpto</th>
+                                <th class="rb" *ngIf="showColumns.valor" style="text-align: end;">Cumpl</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMes</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMesPpto</th>
+                                <th class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">Cumpl</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTon</th>
+                                <th class="rb" *ngIf="showColumns.precTon" style="text-align: end;">PrecTonPpto</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;">PlanDUni</th>
+                                <th class="rb" *ngIf="showColumns.plan" style="text-align: end;">PlanDValor</th>
+                                <th *ngIf="showColumns.pedPend" style="text-align: end;">ValorPedPend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let record of records">
+                                <td class="rb" *ngIf="currentActive === 'Cliente'" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.Agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.Agrupacion }}</td>
+                                <td class="rb" *ngIf="currentActive !== 'Cliente'" noWrap>{{ record.Agrupacion }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorPpto | number: "1.1-2" }}</td>
+                                <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes / record.ValorPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMesPpto | number: "1.1-2" }}</td>
+                                <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes / record.TonMesPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorMes / record.TonMes | number: "1.1-2" }}</td>
+                                <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorPpto / record.TonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDUni | number: "1.1-2" }}</td>
+                                <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDValor | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.ValorPedPend | number: "1.1-2" }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="rb">Totales</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes | number: "1.1-2"}}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorPpto | number: "1.1-2"}}</td>
+                                <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes / totals.ValorPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes | number: "1.1-2"}}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMesPpto | number: "1.1-2"}}</td>
+                                <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes / totals.TonMesPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorMes / totals.TonMes | number: "1.1-2" }}</td>
+                                <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorPpto / totals.TonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDUni | number: "1.1-2"}}</td>
+                                <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDValor | number: "1.1-2"}}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.ValorPedPend | number: "1.1-2"}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+        </section>
     </div>
 </div>
 

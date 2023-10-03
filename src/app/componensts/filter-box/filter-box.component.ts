@@ -5,6 +5,8 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccordionComponent } from '../accordion/accordion.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilterBoxHeaderComponent } from './components/filter-box-header/filter-box-header.component';
+import { FormatService } from 'src/app/services/format.service';
+import { AsiVamosService } from 'src/app/services/asi-vamos.service';
 
 @Component({
   selector: 'filter-box',
@@ -19,6 +21,8 @@ export class FilterBoxComponent implements DoCheck {
 
   showBox: boolean = false;
 
+  currentDate: Date = new Date();
+
   data: any;
   initialCoords: number[] = [0, 0];
   activeCoords: number[] = [0, 0];
@@ -28,12 +32,16 @@ export class FilterBoxComponent implements DoCheck {
 
   maintainBoxRef:  any;
 
+  filters: any = [];
+
+
   @ViewChild('box', {static: false}) box!: ElementRef;
 
-  constructor(private httpClient: HttpClient) {
-
+  constructor(private httpClient: HttpClient, private formatService: FormatService, private asiVamosService: AsiVamosService) {
     this.getData();
-    
+    effect(() => {
+      this.filters = asiVamosService.filterStatus().filters;
+    })
   }
 
   ngDoCheck(): void {
@@ -43,16 +51,22 @@ export class FilterBoxComponent implements DoCheck {
   }
 
   getData() {
-    const headers = new HttpHeaders().append("Authorization", "Basic "+btoa("admin:bss2015"))
-    this.httpClient.get<any>('https://admin:bss2015@brinsadigital.com.co/api-db/asivamos_segmentacion/Director5009', { headers })
-    .subscribe({
+    const date: string = this.formatService.formatDate(this.currentDate, true, true);
+    this.asiVamosService.dataClient.subscribe({
       next: (res) => {
-        this.data = res;
+        if(JSON.stringify(res) !== "{}") {
+          this.httpClient.get<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${res.Vendedor}/${date}`)
+          .subscribe({
+            next: (res) => {
+              this.data = res;
+            }
+          })
+        }
       }
     })
   }
 
-  close(event: string) {
+  close() {
     this.sig?.mutate((currentValue: any) => currentValue.open = false)
   }
 
@@ -80,5 +94,23 @@ export class FilterBoxComponent implements DoCheck {
     this.dragging = false;
     this.endCoords[0] = this.activeCoords[0];
     this.endCoords[1] = this.activeCoords[1];
+  }
+
+  changeFilters(categoria: string, campo: string, evento: any) {
+    if(evento.target.checked) {
+      this.filters.push({categoria, campo});
+    }else{
+      this.filters = this.filters.filter((flt: any) => {
+        if(flt.categoria !== categoria || flt.campo !== campo) {
+          return true;
+        }else{
+          return false;
+        }
+      });
+    }
+  }
+
+  isChecked(categ: string, field: string) {
+    return this.filters.some((flt: any) => flt.categoria === categ && flt.campo === field);
   }
 }

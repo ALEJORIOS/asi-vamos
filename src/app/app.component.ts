@@ -11,7 +11,6 @@ export class AppComponent {
 
   constructor(public asiVamosService: AsiVamosService) {
     effect(() => {
-      console.log("SeñalApp: ", asiVamosService.filterStatus());
     })
   }
 }

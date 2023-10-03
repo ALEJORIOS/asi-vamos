@@ -12,4 +12,8 @@ export class CrudService {
   getData(body: string) {
     return this.httpClient.post<any>(`${url}/grid2`, body);
   }
+
+  getRecords(director: number, periodo: string, categ: string, filters: any) {
+    return this.httpClient.post<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${director}/${periodo}/${categ}`, filters)
+  }
 }

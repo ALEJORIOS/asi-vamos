@@ -1,15 +1,16 @@
-import { Component, AfterViewInit, ViewChild, LOCALE_ID } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, LOCALE_ID, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as charts from 'src/assets/charts';
 
-import localeEs from '@angular/common/locales/es';
+import localeEs from '@angular/common/locales/es-CO';
 import { registerLocaleData } from '@angular/common';
 import { CrudService } from 'src/app/config/crud.service';
 import { FormatService } from 'src/app/services/format.service';
-import { combineLatest } from 'rxjs';
 import { TopbarComponent } from 'src/app/componensts/topbar/topbar.component';
 import { FilterBoxComponent } from 'src/app/componensts/filter-box/filter-box.component';
-import { DataActions } from 'src/app/services/asi-vamos.service';
+import { AsiVamosService, DataActions } from 'src/app/services/asi-vamos.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -18,7 +19,7 @@ registerLocaleData(localeEs, 'es');
   templateUrl: './asi-vamos.component.html',
   styleUrls: ['./asi-vamos.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
-  imports: [CommonModule, TopbarComponent, FilterBoxComponent]
+  imports: [CommonModule, TopbarComponent, FilterBoxComponent, NgbDropdownModule, FormsModule]
 })
 export default class AsiVamosComponent implements AfterViewInit {
 
@@ -42,6 +43,8 @@ export default class AsiVamosComponent implements AfterViewInit {
   averageMoney: number = 0;
   averageTons: number = 0;
 
+  records: any = [];
+
   valueComparisonMoneyCurrent: number[] = [];
   valueComparisonMoneyPast: number[] = [];
   valueComparisonTonsCurrent: number[] = [];
@@ -49,87 +52,144 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   dataActions: any = {};
 
-  records = [    
-    {
-      TonMes: 1,
-      TonMesPpto: 1,
-      TonMesAAnt: 1,
-      TonAcum: 1,
-      TonAcumPpto: 1,
-      TonAcumAAnt: 1,
-      ValorMes: 1,
-      ValorPpto: 1,
-      ValorMesAAnt: 1,
-      ValorAcum: 1,
-      ValorAcumPpto: 1,
-      ValorAcumAAnt: 1,
-      ValorPedPend: 1,
-      PlanDUni: 1,
-      PlanDValor: 1,
-      Devolucion: 1,
-      NotaCredito: 1,
-      CodCausalNC: 1,
-      CausalNC: 1
-    }
-  ]
+  rotateTable: boolean = false;
 
-  constructor(private gridService: CrudService, private formatService: FormatService) {
-    this.getAllData();
+  currentActive: string = "Canal";
+
+  filters: any = {};
+
+  userData: any;
+
+  showFilters: boolean = false;
+
+  showColumns: any = {
+    valor: true,
+    tonelada: true,
+    precTon: true,
+    plan: true,
+    pedPend: true
   }
 
-  getAllData() {
-    const requestBody: any = {
-      id: "asivamos_list",
-      take: 0,
-      filter: [
-        {
-          field: "Periodo",
-          condition: "= '2023-09-01'"
+  totals: any = {
+    TonMes: 0,
+    TonMesPpto: 0,
+    ValorMes: 0,
+    ValorPpto: 0,
+    ValorPedPend: 0,
+    PlanDUni: 0,
+    PlanDValor: 0
+  }
+
+  loading: any = {
+    Canal: false,
+    Subcanal: false,
+    Linea: false,
+    Segmento: false,
+    Vendedor: false,
+    Cliente: false,
+    Producto: false,
+    Marca: false,
+    UEN: false
+  }
+
+  constructor(private gridService: CrudService, private formatService: FormatService, private asiVamosService: AsiVamosService) {
+    this.initialize();
+    effect(() => {
+      if(asiVamosService.filterStatus().update) {
+        if(asiVamosService.filterStatus().filters.length > 0) {
+          this.filters.Filtro = {};
+          this.filters.Filtro.Canal = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Canal").map((flt: any) => flt.campo);
+          this.filters.Filtro.Subcanal = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Subcanal").map((flt: any) => flt.campo);
+          this.filters.Filtro.Linea = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Linea").map((flt: any) => flt.campo);
+          this.filters.Filtro.Segmento = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Segmento").map((flt: any) => flt.campo);
+          this.filters.Filtro.Vendedor = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Vendedor").map((flt: any) => flt.campo);
+          this.filters.Filtro.Cliente = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Cliente").map((flt: any) => flt.campo);
+          this.filters.Filtro.Producto = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Producto").map((flt: any) => flt.campo);
+          this.filters.Filtro.Marca = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Marca").map((flt: any) => flt.campo);
+          this.filters.Filtro.UEN = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
+        }else{
+          this.filters.Filtro = {};
         }
-      ]
-    }
-    this.gridService.getData(requestBody).subscribe({
+        asiVamosService.filterStatus.mutate(sts => sts.update = false);
+        this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
+      }
+
+    }, {allowSignalWrites: true})
+  }
+  
+  async initialize() {
+    const token: string = localStorage.getItem('identity') || "";
+    this.userData = await this.asiVamosService.decryptToken(token);
+    this.asiVamosService.dataClient.next(this.userData);
+    this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
+  }
+  
+  getRecords(director: number, period: string, segment: string = 'Producto') {
+    
+    this.gridService.getRecords(director, period, segment, this.filters).subscribe({
       next: (res) => {
+        this.records = res;
+        this.updateTotals();
         this.updateData(res);
-        this.updateComparativeData(res, this.formatService.getPastMonths(this.currentDate, 12).dates);
-        console.log('last: ', res.rows.at(-1));
+        Object.keys(this.loading).forEach(categ => {
+          this.loading[categ] = false;
+        })
       }
     })
   }
 
+  updateTotals() {
+    Object.keys(this.totals).forEach(agr => {
+      this.totals[agr] = this.records.reduce((acc: number, cv: any) => acc+cv[agr], 0);
+    })
+  }
+
+  setCurrent(current: string) {
+    this.currentActive = current;
+    Object.keys(this.totals).forEach(total => {
+      this.totals[total] = 0;
+    })
+    this.loading[current] = true;
+    this.records = [];
+    this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), current)
+  }
+
+  linkToDashboard(code: string) {
+    return `https://www.brinsadigital.com.co/brinsa-dashboard/dashboard/${code}`
+  }
+
+  removeFilter() {
+    this.asiVamosService.filterStatus.mutate(sts => sts.filters = []);
+    this.asiVamosService.filterStatus.mutate(sts => sts.update = true);
+  }
   
+  openFilters() {
+    this.asiVamosService.filterStatus.mutate(sts => sts.open = true);
+  }
 
-  process(rawData: any) {
+  rotate() {
+    this.rotateTable = !this.rotateTable;
+  }
 
+  showFiltersBoxPreview() {
+    if(this.filters.Filtro && Object.keys(this.filters.Filtro).length) {
+      this.showFilters = true;
+    }
+  }
+
+  hideFiltersBoxPreview() {
+    this.showFilters = false;
   }
 
   updateData(res: any) {
-    this.dataActions = new DataActions(res.rows);
-    const date: string = `${this.formatService.formatDate(this.currentDate, true, true)}`;
-    // const date: string = "2023-09-01";
-    this.valueMoneyCurrent = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "ValorMes");
-    this.valueMoneyBudget = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "ValorPpto");
-    this.valueTonsCurrent = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "TonMes");
-    this.valueTonsBudget = this.dataActions.filterAndOperate([{field: "Periodo", value: date}], "sum", "TonMesPpto");
-    this.averageMoney = Math.round(this.valueMoneyCurrent * 100 / this.valueMoneyBudget);
-    this.averageTons = Math.round(this.valueTonsCurrent * 100 / this.valueTonsBudget);
+    this.dataActions = new DataActions(res);
+    this.valueMoneyCurrent = this.dataActions.sum("ValorMes");
+    this.valueMoneyBudget = this.dataActions.sum("ValorPpto");
+    this.valueTonsCurrent = this.dataActions.sum("TonMes");
+    this.valueTonsBudget = this.dataActions.sum("TonMesPpto");
+    this.averageMoney = Math.round(this.valueMoneyCurrent * 100 / this.valueMoneyBudget) || 0;
+    this.averageTons = Math.round(this.valueTonsCurrent * 100 / this.valueTonsBudget) || 0;
     this.updateSummaryCharts();
-  }
-
-  updateComparativeData(res: any, months: any[]) {
-    this.valueComparisonMoneyCurrent = [];
-    this.valueComparisonMoneyPast = [];
-    this.valueComparisonTonsCurrent = [];
-    this.valueComparisonTonsPast = [];
-    const dataActions = new DataActions(res.rows);
-    months.forEach(month => {
-      // console.log('Month: ', month);
-      // console.log('>>> ', dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorMes"));
-      this.valueComparisonMoneyCurrent.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorMes"))
-      this.valueComparisonMoneyPast.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "ValorPpto"))
-      this.valueComparisonTonsCurrent.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "TonMes"))
-      this.valueComparisonTonsPast.push(dataActions.filterAndOperate([{field: "Periodo", value: month}], "sum", "TonMesPpto"))
-    });
   }
 
   updateSummaryCharts() {
@@ -218,60 +278,6 @@ export default class AsiVamosComponent implements AfterViewInit {
       }
     });
   }
-
-  // drawComparisonCharts() {
-  //   this.generalComparativePriceChart = new charts.Chart(this.comparativePriceChart.nativeElement, {
-  //     type: 'line',
-  //     data: {
-  //       labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-  //       datasets: [{
-  //         label: "Año Actual",
-  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
-  //         borderColor: '#62993E',
-  //         fill: true,
-  //         backgroundColor: '#62993E90',
-  //         tension: 0.1
-  //       },
-  //       {
-  //         label: "Año Anterior",
-  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
-  //         borderColor: '#A1C490',
-  //         tension: 0.1
-  //       }]
-  //     },
-  //     options: {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       // aspectRatio: 3/1
-  //     }
-  //   })
-
-  //   this.generalComparativeTonsChart = new charts.Chart(this.comparativeTonsChart.nativeElement, {
-  //     type: 'line',
-  //     data: {
-  //       labels: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-  //       datasets: [{
-  //         label: "Año Actual",
-  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
-  //         borderColor: '#5089BC',
-  //         fill: true,
-  //         backgroundColor: '#5089BC90',
-  //         tension: 0.1
-  //       },
-  //       {
-  //         label: "Año Anterior",
-  //         data: [0,0,0,0,0,0,0,0,0,0,0,0],
-  //         borderColor: '#97B9E0',
-  //         tension: 0.1
-  //       }]
-  //     },
-  //     options: {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       // aspectRatio: 3/1
-  //     }
-  //   })
-  // }
 
   ngAfterViewInit() {
     this.drawSummaryCharts();

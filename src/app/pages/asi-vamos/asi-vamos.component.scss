@@ -1,12 +1,11 @@
 .layout {
     display: grid;
     grid-template-columns: 40vw 40vw;
-    grid-template-rows: 200px 400px;
+    grid-template-rows: 200px auto;
     justify-content: center;
     margin-top: 3rem;
     gap: 16px;
     z-index: 1;
-    height: max-content;
 
     .card {
         background-color: #fff;
@@ -78,22 +77,116 @@
     .table {
         display: flex;
         flex-direction: column;
-        grid-column: 1/3;
+        grid-column: 1/-1;
         overflow-x: auto;
-        // position: relative;
-        // left: 0;
+        justify-content: start;
+        align-items: start;
+        gap: 8px;
+        min-height: 400px;
+        .title {
+            display: flex;
+            justify-content: space-between;
+            .dropdown {
+                position: sticky;
+                top: 0;
+                right: 0;
+            }
+        }
+        > section {
+            transform: rotate(0deg);
+            transform-origin: 0 0;
+            transition: all 1s;
+        }
+        .actionGroup {
+            display: flex;
+            gap: 8px;
+            position: relative;
+            .box {
+                position: absolute;
+                top: 33.5px;
+                right: 76px;
+                width: fit-content;
+                max-width: 800px;
+                height: 200px;
+                border: 1px solid #F0F0F0;
+                background-color: #fff;
+                box-shadow: 0 0 4px 2px #D2ECFD;
+                border-radius: 8px;
+                padding: 1rem;
+                overflow: auto;
+                display: flex;
+                gap: 8px;
+                .categFlt {
+                    display: flex;
+                    flex-direction: column;
+                    .title {
+
+                    }
+                    .categContent {
+                        display: flex;
+                        flex-direction: column;
+                        border: 1px solid #B0B0B0;
+                        border-radius: 6px;
+                        height: 180px;
+                        padding: 4px;
+                        span {
+                            white-space: nowrap;
+                        }
+
+                    }
+                }
+                // table {
+                //     span {
+                //         white-space: nowrap;
+                //     }
+                //     td {
+                //         border-right: 1px solid #F0F0F0;
+                //         .cell {
+                //             padding: 0 4px;
+                //             display: flex;
+                //             flex-direction: column;
+                //         }
+                //     }
+                //     td:last-child {
+                //         border: none;
+                //     }
+                // }
+            }
+        }
         .buttonGroup {
             display: flex;
             gap: 8px;
+            padding: 0;
+            button {
+                border: 1px solid #1199F4;
+                color: #1199F4;
+                border-radius: 4px 4px 0 0;
+                border-bottom: none;
+                background-color: transparent;
+                &:active {
+                    border-bottom: none;
+                }
+                &:hover {
+                    background-color: #1199F420;
+                }
+            }
+            .current {
+                background-color: #1199F420;
+            }
         }
+        .content {
+            border: 1px solid #1199F4;
+            padding: 0;
+            overflow: auto;
+        }
+
         table {
-            // width: 100%;
-            // position: relative;
+            min-width: 100%;
             thead {
                 tr {
-                    background-color: #E2EFDA;
+                    background-color: #1199F430;
                     border: none;
-                    border-bottom: 1px solid #62993E;
+                    border-bottom: 1px solid #1199F4;
                 }
             }
             tbody {
@@ -109,6 +202,9 @@
                         padding: 0;
                         padding-right: 12px;
                     }
+                    &:hover {
+                        background-color: #1199F410;
+                    }
                 }
                 tr.tableTitle {
                     border-bottom: 1px solid #E0E0E0;
@@ -118,58 +214,102 @@
             tfoot {
                 tr {
                     border: none;
-                    border-top: 1px solid #62993E;
-                    background-color: #E2EFDA;
+                    border-top: 1px solid #1199F4;
+                    background-color: #1199F430;
                     font-weight: 600;
                 }
             }
             td, th {
                 padding-right: 12px;
             }
+            .rb + td, .rb + th {
+                border-left: 1px solid #1199F4;
+            }
         }
+
     }
 
-    .comparative {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        h3 {
-            margin: 0;
+    .table-rotate {
+        grid-row: 1/-1;
+        > section {
+            transform: rotate(-90deg) translateX(-100%);
+            transform-origin: 0 0;
+            transition: all 1s;
+            height: 100%;
+            width: auto;
         }
-        .chart {
-            height: 80%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
     }
 
     .main {
         display: flex;
+        min-width: 300px;
         .summaryChart {
             aspect-ratio: 1;
             max-height: 100%;
         }
     }
+
+}
+
+.form-check-input:checked {
+    background-color: #1199F4;
+    border-color: #0f81cd;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(85, 207, 255, 0.25);
+}
+
+.btn {
+    border-color: #1199F4;
+    color: #1199F4;
+}
+.btn:hover {
+    background-color: #1199F4;
+    color: white;
 }
 
 
 @media ( width < 1100px ) {
     .layout {
         grid-template-columns: 90vw;
-        grid-template-rows: repeat(2, 200px) repeat(2, 300px);
-        .card {
-            // background-color: red;
+        grid-template-rows: repeat(2, 200px) 300px;
+        .main {
+            gap: 1vw;
+            .summaryChart {
+                aspect-ratio: 1;
+                max-width: 166px;
+                min-width: 84px;
+                width: 20vw;
+                canvas {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .table {
+            grid-row: 3/4;
+        }
+        .table-rotate {
+            grid-row: 1/-1;
         }
     }
 }
 
-@media ( width < 490px ) {
-    .layout {
-        .main {
-            .summaryChart {
-                display: none;
+@media ( width < 600px ) {
+    .table {
+        section {
+            .title {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: calc(90vw - 32px);
+                gap: 0 !important;
+                position: sticky;
+                left: 16px;
+                .dropdown {
+                    position: relative !important;
+                }
             }
         }
     }
