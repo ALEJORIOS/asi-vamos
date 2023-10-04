@@ -34,7 +34,6 @@ export class FilterBoxComponent implements DoCheck {
 
   filters: any = [];
 
-
   @ViewChild('box', {static: false}) box!: ElementRef;
 
   constructor(private httpClient: HttpClient, private formatService: FormatService, private asiVamosService: AsiVamosService) {
@@ -59,6 +58,10 @@ export class FilterBoxComponent implements DoCheck {
           .subscribe({
             next: (res) => {
               this.data = res;
+              this.data.Segmentacion.map((seg: any) => seg.Valores = seg.Valores.map((val: any) => val.Valor));
+              this.data.Segmentacion.forEach((seg: any) => {
+                seg.Valores.sort()
+              })
             }
           })
         }
@@ -112,5 +115,16 @@ export class FilterBoxComponent implements DoCheck {
 
   isChecked(categ: string, field: string) {
     return this.filters.some((flt: any) => flt.categoria === categ && flt.campo === field);
+  }
+
+  toggleCheck(values: string[], categ: string) {
+    const reverseFilters: any[] = [];
+    values.forEach((field: string) => {
+      if(!this.filters.some((flt: any) => flt.categoria === categ && flt.campo === field)) {
+        reverseFilters.push({categoria: categ, campo: field})
+      }
+    })
+    this.filters = this.filters.filter((flt: any) => flt.categoria !== categ);
+    this.filters.push(...reverseFilters);
   }
 }

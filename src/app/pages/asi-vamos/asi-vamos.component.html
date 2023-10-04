@@ -46,10 +46,9 @@
                     <span>Presupuesto</span>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
     <div class="card table" [ngClass]="{'table-rotate': rotateTable}">
-
         <section>
             <!-- <button (click)="rotate()">Rotate</button> -->
             <div class="title">
@@ -128,10 +127,14 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownForm1">
                         <div class="d-flex gap-5 px-3 py-2">
                             <div class="d-flex flex-column">
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" type="checkbox" class="form-check-input"/>&nbsp;Valor</label><div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label><div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label><div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" type="checkbox" class="form-check-input"/>&nbsp;Plan Desarrollo</label><div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" type="checkbox" class="form-check-input"/>&nbsp;Plan Desarrollo</label>
+                                <div class="dropdown-divider"></div>
                                 <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
                             </div>
                         </div>

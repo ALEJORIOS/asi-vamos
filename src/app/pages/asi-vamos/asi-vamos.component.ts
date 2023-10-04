@@ -129,6 +129,17 @@ export default class AsiVamosComponent implements AfterViewInit {
     this.gridService.getRecords(director, period, segment, this.filters).subscribe({
       next: (res) => {
         this.records = res;
+        this.records.sort((a: any, b: any) => {
+          if(b.Agrupacion > a.Agrupacion) {
+            return -1;
+          }else if(b.Agrupacion < a.Agrupacion){
+            return 1;
+          }else{
+            return 0
+          }
+          
+        
+        });
         this.updateTotals();
         this.updateData(res);
         Object.keys(this.loading).forEach(categ => {
@@ -235,7 +246,7 @@ export default class AsiVamosComponent implements AfterViewInit {
             text: this.averageMoney+"%",
             color: "#62993E",
             minFontSize: 5,
-            maxFontSize: 25,
+            maxFontSize: 20,
           }
         },
         plugins: {
@@ -267,7 +278,7 @@ export default class AsiVamosComponent implements AfterViewInit {
             text: this.averageTons+"%",
             color: "#5089BC",
             minFontSize: 5,
-            maxFontSize: 25,
+            maxFontSize: 20,
           }
         },
         plugins: {

@@ -6,10 +6,10 @@
         <filter-box-body>
             <accordion>
                 <section *ngFor="let segment of data?.Segmentacion">
-                    <div class="title">{{ segment.Segmento }}</div>
+                    <div class="title" (click)="toggleCheck(segment.Valores, segment.Segmento)">{{ segment.Segmento }}</div>
                     <div class="content">
                         <div>
-                            <label *ngFor="let value of segment.Valores"><input [checked]="isChecked(segment.Segmento, value.Valor)" (change)="changeFilters(segment.Segmento, value.Valor, $event)" type="checkbox">{{ value.Valor }}</label>
+                            <label *ngFor="let value of segment.Valores"><input [checked]="isChecked(segment.Segmento, value)" (change)="changeFilters(segment.Segmento, value, $event)" type="checkbox">{{ value }}</label>
                         </div>
                     </div>
                 </section>
@@ -19,4 +19,3 @@
         </filter-box-footer>
     </div>
 </div>
-
