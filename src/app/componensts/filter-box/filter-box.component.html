@@ -6,10 +6,13 @@
         <filter-box-body>
             <accordion>
                 <section *ngFor="let segment of data?.Segmentacion">
-                    <div class="title" (click)="toggleCheck(segment.Valores, segment.Segmento)">{{ segment.Segmento }}</div>
+                    <div class="title"><label><input *ngIf="segment.Segmento !== 'Director'" type="checkbox" (change)="toggleCheck(segment.Valores, segment.Segmento)">&nbsp;{{ segment.Segmento }}</label></div>
                     <div class="content">
                         <div>
-                            <label *ngFor="let value of segment.Valores"><input [checked]="isChecked(segment.Segmento, value)" (change)="changeFilters(segment.Segmento, value, $event)" type="checkbox">{{ value }}</label>
+                            <label *ngFor="let value of segment.Valores">
+                                <input *ngIf="segment.Segmento !== 'Director'" [checked]="isChecked(segment.Segmento, value)" (change)="changeFilters(segment.Segmento, value, $event)" type="checkbox"><span *ngIf="segment.Segmento !== 'Director'">{{ value }}</span>
+                                <input *ngIf="segment.Segmento === 'Director'" type="radio" [checked]="value.split('-')[1] === asiVamosService.allDirectors().current"  (change)="changeDirector(value.split('-')[0])">&nbsp;<span *ngIf="segment.Segmento === 'Director'">{{ value.split('-')[1] }}</span>
+                            </label>
                         </div>
                     </div>
                 </section>

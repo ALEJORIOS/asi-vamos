@@ -62,6 +62,8 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   showFilters: boolean = false;
 
+  inMenu: boolean = false;
+
   showColumns: any = {
     valor: true,
     tonelada: true,
@@ -92,7 +94,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     UEN: false
   }
 
-  constructor(private gridService: CrudService, private formatService: FormatService, private asiVamosService: AsiVamosService) {
+  constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService) {
     this.initialize();
     effect(() => {
       if(asiVamosService.filterStatus().update) {
@@ -109,6 +111,10 @@ export default class AsiVamosComponent implements AfterViewInit {
           this.filters.Filtro.UEN = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
         }else{
           this.filters.Filtro = {};
+        }
+        if(asiVamosService.filterStatus().filters.some((flt: any) => flt.categoria === "Director")) {
+          this.userData.Vendedor = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Director")[0].campo; 
+          asiVamosService.filterStatus.mutate((flt: any) => flt.filters = flt.filters.filter((flt: any) => flt.categoria !== 'Director'));
         }
         asiVamosService.filterStatus.mutate(sts => sts.update = false);
         this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
@@ -170,6 +176,8 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
 
   removeFilter() {
+    this.userData.Vendedor = 0;
+    this.asiVamosService.allDirectors.mutate(sts => sts.current = 0)
     this.asiVamosService.filterStatus.mutate(sts => sts.filters = []);
     this.asiVamosService.filterStatus.mutate(sts => sts.update = true);
   }
@@ -183,7 +191,8 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
 
   showFiltersBoxPreview() {
-    if(this.filters.Filtro && Object.keys(this.filters.Filtro).length) {
+    if(this.filters.Filtro && Object.keys(this.filters.Filtro).length && this.asiVamosService.filterStatus().filters.length) {
+      console.log('>>>> ', this.filters);
       this.showFilters = true;
     }
   }

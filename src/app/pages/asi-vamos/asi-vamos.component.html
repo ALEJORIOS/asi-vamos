@@ -50,14 +50,46 @@
     </div>
     <div class="card table" [ngClass]="{'table-rotate': rotateTable}">
         <section>
-            <!-- <button (click)="rotate()">Rotate</button> -->
             <div class="title">
-                <h3 style="margin: 0; justify-self: center;">Mes Actual Nacional</h3>
-                <div ngbDropdown container="body" class="d-inline-block dropdown">
+                <h3 style="margin: 0; justify-self: center;">Mes Actual Nacional <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
                     <div class="actionGroup">
-                        <button type="button" class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>
-                            Columnas
-                        </button>
+                        <div ngbDropdown container="body" class="d-inline-block dropdown">
+                            <button type="button" class="btn btn-outline-primary group" id="dropdownForm2" ngbDropdownToggle>
+                                Agrupación
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownForm2">
+                                <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
+                                <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
+                                <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
+                                <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
+                                <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
+                                <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
+                                <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
+                                <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
+                                <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
+                                
+                            </div>
+                        </div>
+                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>
+                                Columnas
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                                <div class="d-flex gap-5 px-3 py-2">
+                                    <div class="d-flex flex-column">
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="filters" (mouseenter)="showFiltersBoxPreview()" (mouseleave)="hideFiltersBoxPreview()">
                             <button type="button" class="btn btn-outline-primary" (click)="openFilters()">
                                 Filtrar
@@ -124,22 +156,6 @@
                         </button>
                         <!-- <button (click)="setFilterOpen(true)">Filtrar datos</button> -->
                     </div>
-                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-                        <div class="d-flex gap-5 px-3 py-2">
-                            <div class="d-flex flex-column">
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
-                                <div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
-                                <div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
-                                <div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" type="checkbox" class="form-check-input"/>&nbsp;Plan Desarrollo</label>
-                                <div class="dropdown-divider"></div>
-                                <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <section>
                 <div class="buttonGroup">
@@ -157,7 +173,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="rb">Agrupación</th>
+                                <th class="rb stickyCol">Agrupación</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;">ValorMes</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;">ValorPpto</th>
                                 <th class="rb" *ngIf="showColumns.valor" style="text-align: end;">Cumpl</th>
@@ -173,8 +189,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let record of records">
-                                <td class="rb" *ngIf="currentActive === 'Cliente'" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.Agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.Agrupacion }}</td>
-                                <td class="rb" *ngIf="currentActive !== 'Cliente'" noWrap>{{ record.Agrupacion }}</td>
+                                <td class="rb stickyCol" *ngIf="currentActive === 'Cliente'" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.Agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.Agrupacion }}</td>
+                                <td class="rb stickyCol" *ngIf="currentActive !== 'Cliente'" noWrap>{{ record.Agrupacion }}</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorPpto | number: "1.1-2" }}</td>
                                 <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes / record.ValorPpto | percent: "1.0-0" }}</td>
@@ -190,7 +206,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="rb">Totales</td>
+                                <td class="rb stickyCol">Totales</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes | number: "1.1-2"}}</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorPpto | number: "1.1-2"}}</td>
                                 <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes / totals.ValorPpto | percent: "1.0-0" }}</td>

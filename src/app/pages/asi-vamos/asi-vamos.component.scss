@@ -79,6 +79,7 @@
         align-items: start;
         gap: 8px;
         min-height: 400px;
+        height: fit-content;
         .title {
             display: flex;
             justify-content: space-between;
@@ -97,6 +98,9 @@
             display: flex;
             gap: 8px;
             position: relative;
+            .group {
+                display: none;
+            }
             .box {
                 position: absolute;
                 top: 33.5px;
@@ -112,6 +116,7 @@
                 overflow: auto;
                 display: flex;
                 gap: 8px;
+                z-index: 10;
                 .categFlt {
                     display: flex;
                     flex-direction: column;
@@ -172,14 +177,23 @@
             border: 1px solid #1199F4;
             padding: 0;
             overflow: auto;
+            position: relative;
+            max-width: calc(80vw - 34px);
         }
         table {
             min-width: 100%;
             thead {
                 tr {
-                    background-color: #1199F430;
                     border: none;
                     border-bottom: 1px solid #1199F4;
+                    th {
+                        background-color: #D2ECFD;
+                    }
+                    .stickyCol {
+                        position: sticky;
+                        position: -webkit-sticky;
+                        left: 0;
+                    }
                 }
             }
             tbody {
@@ -198,6 +212,12 @@
                     &:hover {
                         background-color: #1199F410;
                     }
+                    .stickyCol {
+                        position: sticky;
+                        position: -webkit-sticky;
+                        background-color: #fff;
+                        left: 0;
+                    }
                 }
                 tr.tableTitle {
                     border-bottom: 1px solid #E0E0E0;
@@ -210,6 +230,12 @@
                     border-top: 1px solid #1199F4;
                     background-color: #1199F430;
                     font-weight: 600;
+                    .stickyCol {
+                        position: sticky;
+                        position: -webkit-sticky;
+                        background-color: #D2ECFD;
+                        left: 0;
+                    }
                 }
             }
             td,
@@ -280,6 +306,19 @@
         }
         .table {
             grid-row: 3/4;
+            section {
+                .title{
+                    width: 100%
+                }
+            }
+            .content {
+                max-width: calc(90vw - 34px);
+            }
+            .actionGroup {
+                position: sticky;
+                right: 0;
+            }
+
         }
         .table-rotate {
             grid-row: 1/-1;
@@ -287,21 +326,44 @@
     }
 }
 
-@media ( width < 600px) {
-    .table {
-        section {
-            .title {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                width: calc(90vw - 32px);
-                gap: 0 !important;
-                position: sticky;
-                left: 16px;
-                .dropdown {
-                    position: relative !important;
+@media ( width < 760px) {
+    .layout {
+        .table {
+            .actionGroup {
+                .group {
+                    display: block;
+                }
+            }
+            section {
+                .title {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: calc(90vw - 34px);
+                    gap: 0 !important;
+                    position: sticky;
+                    left: 16px;
+                    .dropdown {
+                        position: relative !important;
+                    }
+                }
+                .buttonGroup {
+                    display: none;
+                }
+                .content {
+                    table {
+                        tbody {
+                            tr {
+                                border-bottom: 1px solid #F0F0F0;
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+    .stickyCol {
+        font-size: 11px;
+        white-space: normal;
     }
 }

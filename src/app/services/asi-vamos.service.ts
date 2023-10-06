@@ -10,6 +10,8 @@ export class AsiVamosService {
   constructor(private httpClient: HttpClient) { }
   
   public filterStatus: WritableSignal<FilterData> = signal({open: false, noElements: 0, filters: [], update: false});
+
+  public allDirectors: WritableSignal<any> = signal({current: 0, list: []});
   
   async decryptToken(token: string) {
 

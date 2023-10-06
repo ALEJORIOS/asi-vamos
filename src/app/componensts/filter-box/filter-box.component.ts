@@ -34,9 +34,11 @@ export class FilterBoxComponent implements DoCheck {
 
   filters: any = [];
 
+  newDirector: number = 0;
+
   @ViewChild('box', {static: false}) box!: ElementRef;
 
-  constructor(private httpClient: HttpClient, private formatService: FormatService, private asiVamosService: AsiVamosService) {
+  constructor(private httpClient: HttpClient, private formatService: FormatService, public asiVamosService: AsiVamosService) {
     this.getData();
     effect(() => {
       this.filters = asiVamosService.filterStatus().filters;
@@ -56,12 +58,13 @@ export class FilterBoxComponent implements DoCheck {
         if(JSON.stringify(res) !== "{}") {
           this.httpClient.get<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${res.Vendedor}/${date}`)
           .subscribe({
-            next: (res) => {
-              this.data = res;
+            next: (res2) => {
+              this.data = res2;
               this.data.Segmentacion.map((seg: any) => seg.Valores = seg.Valores.map((val: any) => val.Valor));
               this.data.Segmentacion.forEach((seg: any) => {
                 seg.Valores.sort()
               })
+              this.asiVamosService.allDirectors.mutate(sts => sts.list = res2.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores);
             }
           })
         }
@@ -97,6 +100,13 @@ export class FilterBoxComponent implements DoCheck {
     this.dragging = false;
     this.endCoords[0] = this.activeCoords[0];
     this.endCoords[1] = this.activeCoords[1];
+  }
+
+  changeDirector(code: any) {
+    this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
+    this.filters.push({categoria: "Director", campo: code});
+    const name = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];
+    this.asiVamosService.allDirectors.mutate(sts => sts.current = name);
   }
 
   changeFilters(categoria: string, campo: string, evento: any) {
