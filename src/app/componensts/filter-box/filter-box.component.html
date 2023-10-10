@@ -9,16 +9,18 @@
                     <div class="title"><label><input *ngIf="segment.Segmento !== 'Director'" type="checkbox" (change)="toggleCheck(segment.Valores, segment.Segmento)">&nbsp;{{ segment.Segmento }}</label></div>
                     <div class="content">
                         <div>
-                            <label *ngFor="let value of segment.Valores">
+                            <label *ngFor="let value of segment.Valores" [ngClass]="{'selected': selectedDirector(value)}">
                                 <input *ngIf="segment.Segmento !== 'Director'" [checked]="isChecked(segment.Segmento, value)" (change)="changeFilters(segment.Segmento, value, $event)" type="checkbox"><span *ngIf="segment.Segmento !== 'Director'">{{ value }}</span>
-                                <input *ngIf="segment.Segmento === 'Director'" type="radio" [checked]="value.split('-')[1] === asiVamosService.allDirectors().current"  (change)="changeDirector(value.split('-')[0])">&nbsp;<span *ngIf="segment.Segmento === 'Director'">{{ value.split('-')[1] }}</span>
+                                <input *ngIf="segment.Segmento === 'Director'" type="radio" [checked]="value.split('-')[1] === asiVamosService.allDirectors().current" (change)="changeDirector(value.split('-')[0])"><span *ngIf="segment.Segmento === 'Director'">{{ value.split('-')[1] }}</span>
                             </label>
                         </div>
                     </div>
                 </section>
             </accordion>
+            <div class="footer">
+                <!-- <button (click)="showFilters()">Ver filtros</button> -->
+                <button (click)="apply()" class="apply">Aplicar Filtros</button>
+            </div>
         </filter-box-body>
-        <filter-box-footer [Signal]="sig" [Filters]="filters">
-        </filter-box-footer>
     </div>
 </div>

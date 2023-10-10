@@ -11,6 +11,7 @@ import { FilterBoxComponent } from 'src/app/componensts/filter-box/filter-box.co
 import { AsiVamosService, DataActions } from 'src/app/services/asi-vamos.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { SpinnerComponent, SpinnerMethods } from 'src/app/components/spinner/spinner.component';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -19,7 +20,7 @@ registerLocaleData(localeEs, 'es');
   templateUrl: './asi-vamos.component.html',
   styleUrls: ['./asi-vamos.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
-  imports: [CommonModule, TopbarComponent, FilterBoxComponent, NgbDropdownModule, FormsModule]
+  imports: [CommonModule, TopbarComponent, FilterBoxComponent, NgbDropdownModule, FormsModule, SpinnerComponent]
 })
 export default class AsiVamosComponent implements AfterViewInit {
 
@@ -63,6 +64,8 @@ export default class AsiVamosComponent implements AfterViewInit {
   showFilters: boolean = false;
 
   inMenu: boolean = false;
+
+  spinner = new SpinnerMethods();
 
   showColumns: any = {
     valor: true,
@@ -131,9 +134,10 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
   
   getRecords(director: number, period: string, segment: string = 'Producto') {
-    
+    this.spinner.loading = true;
     this.gridService.getRecords(director, period, segment, this.filters).subscribe({
       next: (res) => {
+        this.spinner.loading = false;
         this.records = res;
         this.records.sort((a: any, b: any) => {
           if(b.Agrupacion > a.Agrupacion) {
@@ -180,6 +184,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     this.asiVamosService.allDirectors.mutate(sts => sts.current = 0)
     this.asiVamosService.filterStatus.mutate(sts => sts.filters = []);
     this.asiVamosService.filterStatus.mutate(sts => sts.update = true);
+    this.asiVamosService.removeFilters.next(true);
   }
   
   openFilters() {
@@ -192,7 +197,6 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   showFiltersBoxPreview() {
     if(this.filters.Filtro && Object.keys(this.filters.Filtro).length && this.asiVamosService.filterStatus().filters.length) {
-      console.log('>>>> ', this.filters);
       this.showFilters = true;
     }
   }

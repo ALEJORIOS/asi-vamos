@@ -36,13 +36,38 @@ export class FilterBoxComponent implements DoCheck {
 
   newDirector: number = 0;
 
+  temporalDirector: string = "";
+
+  temporalFilters: any = {};
+
+  omitInit: boolean = false;
+
   @ViewChild('box', {static: false}) box!: ElementRef;
 
   constructor(private httpClient: HttpClient, private formatService: FormatService, public asiVamosService: AsiVamosService) {
     this.getData();
-    effect(() => {
-      this.filters = asiVamosService.filterStatus().filters;
+    asiVamosService.removeFilters.subscribe({
+      next: (res: boolean) => {
+        if(res) {
+          this.removeFilters();
+        }
+      }
     })
+    effect(() => {
+      if(!this.omitInit) {
+        this.filters = asiVamosService.filterStatus().filters;
+      }else{
+        this.omitInit = false;
+      }
+      this.temporalDirector = asiVamosService.allDirectors().current;
+    })
+  }
+
+  removeFilters() {
+    this.temporalFilters = {};
+    this.asiVamosService.removeFilters.next(false);
+    this.asiVamosService.filterStatus.mutate((sts: any) => sts.filters = []);
+    this.getData();
   }
 
   ngDoCheck(): void {
@@ -56,7 +81,8 @@ export class FilterBoxComponent implements DoCheck {
     this.asiVamosService.dataClient.subscribe({
       next: (res) => {
         if(JSON.stringify(res) !== "{}") {
-          this.httpClient.get<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${res.Vendedor}/${date}`)
+          // this.httpClient.get<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${res.Vendedor}/${date}`)
+          this.httpClient.post<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/getfiltro/${res.Vendedor}/${date}`, this.temporalFilters)
           .subscribe({
             next: (res2) => {
               this.data = res2;
@@ -74,6 +100,13 @@ export class FilterBoxComponent implements DoCheck {
 
   close() {
     this.sig?.mutate((currentValue: any) => currentValue.open = false)
+  }
+
+  apply() {
+    this.sig?.mutate(state => state.filters = this.filters);
+    this.sig?.mutate(state => state.update = true);
+    this.sig?.mutate((currentValue: any) => currentValue.open = false);
+    this.asiVamosService.allDirectors.mutate(sts => sts.current = this.temporalDirector);
   }
 
   @HostListener('window:mousedown', ['$event'])
@@ -105,8 +138,9 @@ export class FilterBoxComponent implements DoCheck {
   changeDirector(code: any) {
     this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
     this.filters.push({categoria: "Director", campo: code});
-    const name = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];
-    this.asiVamosService.allDirectors.mutate(sts => sts.current = name);
+    this.temporalDirector = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];
+    this.formatFilters();
+    // this.temporalFilters.Filtro.Director = this.filters.filter((flt: any) => flt.categoria === "Director").map((flt: any) => flt.campo);
   }
 
   changeFilters(categoria: string, campo: string, evento: any) {
@@ -121,10 +155,41 @@ export class FilterBoxComponent implements DoCheck {
         }
       });
     }
+    this.omitInit = true;
+    this.formatFilters();
+  }
+
+  formatFilters() {
+    this.temporalFilters.Filtro = {};
+    this.temporalFilters.Filtro.Canal = this.filters.filter((flt: any) => flt.categoria === "Canal").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Subcanal = this.filters.filter((flt: any) => flt.categoria === "Subcanal").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Linea = this.filters.filter((flt: any) => flt.categoria === "Linea").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Segmento = this.filters.filter((flt: any) => flt.categoria === "Segmento").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Vendedor = this.filters.filter((flt: any) => flt.categoria === "Vendedor").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Cliente = this.filters.filter((flt: any) => flt.categoria === "Cliente").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Producto = this.filters.filter((flt: any) => flt.categoria === "Producto").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Marca = this.filters.filter((flt: any) => flt.categoria === "Marca").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.UEN = this.filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
+    if(this.filters.some((flt: any) => flt.categoria === "Director")) {
+      this.temporalFilters.Filtro.Director = [this.temporalDirector];
+      console.log('>>> ', this.temporalDirector);
+    }
+    this.getData();
   }
 
   isChecked(categ: string, field: string) {
     return this.filters.some((flt: any) => flt.categoria === categ && flt.campo === field);
+  }
+
+  showFilters() {
+    setTimeout(() => {
+      
+      console.log('-> ', this.filters);
+    }, 1);
+  }
+
+  selectedDirector(value: string) {
+    return value.split('-')[1] === this.temporalDirector;
   }
 
   toggleCheck(values: string[], categ: string) {

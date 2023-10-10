@@ -12,6 +12,8 @@ export class AsiVamosService {
   public filterStatus: WritableSignal<FilterData> = signal({open: false, noElements: 0, filters: [], update: false});
 
   public allDirectors: WritableSignal<any> = signal({current: 0, list: []});
+
+  public removeFilters = new BehaviorSubject<boolean>(false);
   
   async decryptToken(token: string) {
 

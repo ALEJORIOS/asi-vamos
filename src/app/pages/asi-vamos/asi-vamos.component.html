@@ -1,4 +1,5 @@
 <top-bar [date]="currentDate"></top-bar>
+<spinner *ngIf="spinner.loading"></spinner>
 <div class="layout">
     <div *ngIf="!rotateTable" class="card main">
         <div class="summaryChart">

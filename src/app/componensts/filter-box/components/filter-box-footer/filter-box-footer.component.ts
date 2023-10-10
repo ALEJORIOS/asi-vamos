@@ -11,7 +11,6 @@ export class FilterBoxFooterComponent {
   @Input("Signal") sig!: WritableSignal<any>;
   @Input("Filters") filters: any = [];
   apply() {
-    
     this.sig?.mutate(state => state.filters = this.filters);
     this.sig?.mutate(state => state.update = true);
     this.sig?.mutate((currentValue: any) => currentValue.open = false);
