@@ -28,6 +28,8 @@ export class FilterBoxComponent implements DoCheck {
   activeCoords: number[] = [0, 0];
   endCoords: number[] = [0, 0]
 
+  currentBox: string | null = null;
+
   dragging: boolean = false;
 
   maintainBoxRef:  any;
@@ -42,9 +44,18 @@ export class FilterBoxComponent implements DoCheck {
 
   omitInit: boolean = false;
 
+  tiny: boolean = false;
+
+  disableAll: boolean = false;
+
   @ViewChild('box', {static: false}) box!: ElementRef;
 
   constructor(private httpClient: HttpClient, private formatService: FormatService, public asiVamosService: AsiVamosService) {
+    if(window.screen.width < 768) {
+      this.tiny = true;
+    }else {
+      this.tiny = false;
+    }
     this.getData();
     asiVamosService.removeFilters.subscribe({
       next: (res: boolean) => {
@@ -82,15 +93,42 @@ export class FilterBoxComponent implements DoCheck {
       next: (res) => {
         if(JSON.stringify(res) !== "{}") {
           // this.httpClient.get<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/${res.Vendedor}/${date}`)
+          let retainLast: any = null;
+          if(this.currentBox !== null) {
+            retainLast = this.data.Segmentacion.filter((seg: any) => seg.Segmento === this.currentBox)[0].Valores;
+          }
           this.httpClient.post<any>(`https://www.brinsadigital.com.co/asivamos-api/asivamos/getfiltro/${res.Vendedor}/${date}`, this.temporalFilters)
           .subscribe({
             next: (res2) => {
               this.data = res2;
               this.data.Segmentacion.map((seg: any) => seg.Valores = seg.Valores.map((val: any) => val.Valor));
               this.data.Segmentacion.forEach((seg: any) => {
-                seg.Valores.sort()
+                if(seg.Segmento === this.currentBox) {
+                  seg.Valores = retainLast;
+                  this.currentBox = null;
+                }
               })
-              this.asiVamosService.allDirectors.mutate(sts => sts.list = res2.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores);
+              this.data.Segmentacion.forEach((seg: any) => {
+                if(seg.Segmento === "Director") {
+                  seg.Valores.sort((a: any, b: any) => {
+                    if(a.split('-')[1] > b.split('-')[1]) {
+                      return 1;
+                    }else if(a.split('-')[1] < b.split('-')[1]) {
+                      return -1;
+                    }else{
+                      return 0;
+                    }
+                  });
+                }else{
+                  seg.Valores.sort();
+                }
+              })
+
+              this.asiVamosService.allDirectors.mutate(sts => {
+                sts.list = res2.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores;
+                sts.current = this.temporalDirector;
+              })
+              this.disableAll = false;
             }
           })
         }
@@ -135,18 +173,28 @@ export class FilterBoxComponent implements DoCheck {
     this.endCoords[1] = this.activeCoords[1];
   }
 
-  changeDirector(code: any) {
-    this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
-    this.filters.push({categoria: "Director", campo: code});
-    this.temporalDirector = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];
+  changeDirector(code: any, event: any) {
+    this.disableAll = true;
+    if(!event.target.checked) {
+      this.temporalDirector = "";
+      this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
+      this.currentBox = "Director";
+    }else{
+      this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
+      this.filters.push({categoria: "Director", campo: code});
+      this.temporalDirector = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];      
+      this.currentBox = null;
+    }
     this.formatFilters();
-    // this.temporalFilters.Filtro.Director = this.filters.filter((flt: any) => flt.categoria === "Director").map((flt: any) => flt.campo);
   }
 
   changeFilters(categoria: string, campo: string, evento: any) {
+    this.disableAll = true;
     if(evento.target.checked) {
+      this.currentBox = categoria;
       this.filters.push({categoria, campo});
     }else{
+      this.currentBox = null;
       this.filters = this.filters.filter((flt: any) => {
         if(flt.categoria !== categoria || flt.campo !== campo) {
           return true;
@@ -172,7 +220,6 @@ export class FilterBoxComponent implements DoCheck {
     this.temporalFilters.Filtro.UEN = this.filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
     if(this.filters.some((flt: any) => flt.categoria === "Director")) {
       this.temporalFilters.Filtro.Director = [this.temporalDirector];
-      console.log('>>> ', this.temporalDirector);
     }
     this.getData();
   }
@@ -182,10 +229,7 @@ export class FilterBoxComponent implements DoCheck {
   }
 
   showFilters() {
-    setTimeout(() => {
-      
-      console.log('-> ', this.filters);
-    }, 1);
+    console.log('Temporal ', this.temporalDirector);
   }
 
   selectedDirector(value: string) {

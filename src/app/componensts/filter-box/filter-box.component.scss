@@ -18,10 +18,10 @@
         border: 2px solid #d0d0d0;
         border-radius: 12px;
         overflow: auto;
-        z-index: 2;
+        z-index: 1100;
         .content > div {
             overflow-x: hidden;
-            input[type=radio] {
+            .directorCheck {
                 display: none;
             }
             .selected {
@@ -47,5 +47,15 @@
         color: white;
         padding: 4px 16px;
         font-weight: 500;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .tiny {
+        display: block !important;
+    }
+    .big {
+        display: none !important;
     }
 }

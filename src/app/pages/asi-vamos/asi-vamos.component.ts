@@ -12,6 +12,7 @@ import { AsiVamosService, DataActions } from 'src/app/services/asi-vamos.service
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent, SpinnerMethods } from 'src/app/components/spinner/spinner.component';
+import { ActivatedRoute } from '@angular/router';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -67,6 +68,8 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   spinner = new SpinnerMethods();
 
+  fullscreen: boolean = false;
+
   showColumns: any = {
     valor: true,
     tonelada: true,
@@ -97,7 +100,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     UEN: false
   }
 
-  constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService) {
+  constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService, private route: ActivatedRoute) {
     this.initialize();
     effect(() => {
       if(asiVamosService.filterStatus().update) {
@@ -127,7 +130,10 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
   
   async initialize() {
-    const token: string = localStorage.getItem('identity') || "";
+    let token = "";
+    this.route.queryParams.subscribe((params: any) => {
+      token = params.token;
+    })
     this.userData = await this.asiVamosService.decryptToken(token);
     this.asiVamosService.dataClient.next(this.userData);
     this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
@@ -199,6 +205,11 @@ export default class AsiVamosComponent implements AfterViewInit {
     if(this.filters.Filtro && Object.keys(this.filters.Filtro).length && this.asiVamosService.filterStatus().filters.length) {
       this.showFilters = true;
     }
+  }
+
+  toggleFullscreen() {
+    console.log('Entra');
+    this.fullscreen = !this.fullscreen;
   }
 
   hideFiltersBoxPreview() {

@@ -1,12 +1,24 @@
 ::ng-deep {
     section {
         border-bottom: 1px solid #F0F0F0;
+        display: flex;
+        flex-direction: column;
         .title {
             color: #101010;
             padding: 6px 12px;
             cursor: pointer;
             font-weight: 500;
             user-select: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .arrow {
+            &::after {
+                content: "▼";
+                color: #1199F4;
+            }
         }
         .content {
             display: grid;
@@ -48,6 +60,9 @@
             flex-wrap: wrap;
             section {
                 border: none;
+                display: flex;
+                justify-content: space-between;
+                
                 .content {
                     border: 1px solid #B0B0B0;
                     border-radius: 6px;
@@ -59,6 +74,8 @@
                 }
             }
         }
+
     }
+
     
 }
