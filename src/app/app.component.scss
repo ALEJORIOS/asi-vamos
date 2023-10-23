@@ -7,4 +7,7 @@
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
+    filter-box {
+        z-index: 2000;
+    }
 }

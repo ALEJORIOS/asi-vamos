@@ -52,33 +52,36 @@
     <div class="card table" [ngClass]="{'table-rotate': rotateTable}">
         <section>
             <div class="title">
-                <h3 style="margin: 0; justify-self: center;">Mes Actual Nacional <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
+                <h3 style="margin: 0; justify-self: center;">Mes Actual <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
                     <div class="actionGroup">
                         <div ngbDropdown container="body" class="d-inline-block dropdown">
-                            <button type="button" class="btn btn-outline-primary group" id="dropdownForm2" ngbDropdownToggle>
+                            <button type="button" class="btn btn-outline-primary group" ngbDropdownToggle>
                                 <i class="fa fa-list-ul fa-lg"></i>
                             </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownForm2">
+                            <div ngbDropdownMenu>
+                                <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
+                                <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
+                                <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
                                 <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
                                 <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
                                 <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
                                 <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
-                                <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
                                 <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
                                 <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
-                                <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
-                                <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
                                 
                             </div>
                         </div>
+                        <!-- <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
+                            Pantalla Completa
+                        </button>
+                        <button type="button" class="btn btn-outline-primary tiny" (click)="toggleFullscreen()">
+                            <i class="fa-sharp fa-solid fa-expand"></i>
+                        </button> -->
                         <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
+                            <!-- <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
                                 Columnas
-                            </button>
-                            <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
-                                <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                            </button> -->
+                            <div ngbDropdownMenu>
                                 <div class="d-flex gap-5 px-3 py-2">
                                     <div class="d-flex flex-column">
                                         <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
@@ -94,68 +97,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filters" (mouseenter)="showFiltersBoxPreview()" (mouseleave)="hideFiltersBoxPreview()">
-                            <button type="button" class="btn btn-outline-primary big" (click)="openFilters()">
+                        <button type="button" class="btn btn-outline-primary tiny" (click)="$event.stopPropagation(); dropColumns.open()">
+                            <i class="fa-sharp fa-solid fa-ruler-triangle"></i>epa
+                        </button>
+                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                            <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
                                 Filtrar
                             </button>
-                            <button type="button" class="btn btn-outline-primary tiny" (click)="openFilters()">
+                            <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
                                 <i class="fa-solid fa-filter-list"></i>
                             </button>
-                            <div class="box" *ngIf="showFilters">
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Canal?.length">
-                                    <div class="title">Canal</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Canal">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Subcanal?.length">
-                                    <div class="title">Subcanal</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Subcanal">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Linea?.length">
-                                    <div class="title">Línea</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Linea">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Segmento?.length">
-                                    <div class="title">Segmento</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Segmento">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Vendedor?.length">
-                                    <div class="title">Vendedor</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Vendedor">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Cliente?.length">
-                                    <div class="title">Cliente</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Cliente">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Producto?.length">
-                                    <div class="title">Producto</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Producto">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.Marca?.length">
-                                    <div class="title">Marca</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.Marca">{{ filter }}</span>
-                                    </div>
-                                </div>
-                                <div class="categFlt" *ngIf="filters?.Filtro?.UEN?.length">
-                                    <div class="title">UEN</div>
-                                    <div class="categContent">
-                                        <span *ngFor="let filter of filters?.Filtro?.UEN">{{ filter }}</span>
-                                    </div>
-                                </div>
+                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                                <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                                <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
                             </div>
                         </div>
                         <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
@@ -164,70 +118,83 @@
                         <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
                             <i class="fa-solid fa-filter-slash"></i>
                         </button>
-                        <!-- <button (click)="setFilterOpen(true)">Filtrar datos</button> -->
                     </div>
             </div>
             <section>
                 <div class="buttonGroup">
+                    <button (click)="setCurrent('UEN')" [ngClass]="{'current': currentActive === 'UEN'}">UEN <i *ngIf="loading.UEN" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Vendedor')" [ngClass]="{'current': currentActive === 'Vendedor'}">Vendedor <i *ngIf="loading.Vendedor" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Marca')" [ngClass]="{'current': currentActive === 'Marca'}">Marca <i *ngIf="loading.Marca" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Canal')" [ngClass]="{'current': currentActive === 'Canal'}">Canal <i *ngIf="loading.Canal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Subcanal')" [ngClass]="{'current': currentActive === 'Subcanal'}">Subcanal <i *ngIf="loading.Subcanal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Linea')" [ngClass]="{'current': currentActive === 'Linea'}">Línea <i *ngIf="loading.Linea" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Segmento')" [ngClass]="{'current': currentActive === 'Segmento'}">Segmento <i *ngIf="loading.Segmento" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                    <button (click)="setCurrent('Vendedor')" [ngClass]="{'current': currentActive === 'Vendedor'}">Vendedor <i *ngIf="loading.Vendedor" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Cliente')" [ngClass]="{'current': currentActive === 'Cliente'}">Cliente <i *ngIf="loading.Cliente" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                     <button (click)="setCurrent('Producto')" [ngClass]="{'current': currentActive === 'Producto'}">Producto <i *ngIf="loading.Producto" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                    <button (click)="setCurrent('Marca')" [ngClass]="{'current': currentActive === 'Marca'}">Marca <i *ngIf="loading.Marca" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                    <button (click)="setCurrent('UEN')" [ngClass]="{'current': currentActive === 'UEN'}">UEN <i *ngIf="loading.UEN" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Geografia')" [ngClass]="{'current': currentActive === 'Geografia'}">Geografia <i *ngIf="loading.Geografia" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                    <button (click)="setCurrent('Director')" [ngClass]="{'current': currentActive === 'Director'}">Director <i *ngIf="loading.Director" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 </div>
-                <div class="content" (dblclick)="toggleFullscreen()">
-                    <table >
+                <div class="content">
+                    <table #tableRef>
                         <thead>
-                            <tr>
+                            <tr style="cursor: pointer;">
                                 <th class="rb stickyCol">{{ currentActive }}</th>
-                                <th *ngIf="showColumns.valor" style="text-align: end;">ValorMes</th>
-                                <th *ngIf="showColumns.valor" style="text-align: end;">ValorPpto</th>
-                                <th class="rb" *ngIf="showColumns.valor" style="text-align: end;">Cumpl</th>
-                                <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMes</th>
-                                <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMesPpto</th>
-                                <th class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">Cumpl</th>
-                                <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTon</th>
-                                <th class="rb" *ngIf="showColumns.precTon" style="text-align: end;">PrecTonPpto</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;">PlanDUni</th>
-                                <th class="rb" *ngIf="showColumns.plan" style="text-align: end;">PlanDValor</th>
-                                <th *ngIf="showColumns.pedPend" style="text-align: end;">ValorPedPend</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes">ValorMes</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado">ValorPpto</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Cumplimiento" class="rb">Cumpl</th>
+                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Valor pedidos pendientes">VlrPedPend</th>
+                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Cumplimiento" class="rb">Cump</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Tonelada Mes">TonMes</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Toneladas presupuestadas">TonMesPpto</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Cumplimiento" class="rb">Cumpl</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda">PlanDUni</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento">Cump</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor">PlanDValor</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" >Cump</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada">PrecTon</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada presupuestada">PrecTonPpto</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Cumplimiento" class="rb">Cump</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let record of records">
-                                <td class="rb stickyCol" *ngIf="currentActive === 'Cliente'" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.Agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.Agrupacion }}</td>
-                                <td class="rb stickyCol" *ngIf="currentActive !== 'Cliente'" noWrap>{{ record.Agrupacion }}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorPpto | number: "1.1-2" }}</td>
-                                <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes / record.ValorPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMesPpto | number: "1.1-2" }}</td>
-                                <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes / record.TonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorMes / record.TonMes | number: "1.1-2" }}</td>
-                                <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorPpto / record.TonMesPpto | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDUni | number: "1.1-2" }}</td>
-                                <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDValor | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.ValorPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="currentActive === 'Cliente'" class="rb stickyCol" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.agrupacion }}</td>
+                                <td *ngIf="currentActive !== 'Cliente'" class="rb stickyCol" noWrap>{{ record.agrupacion }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ record.vCump | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ record.pCump | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ record.tCump | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ record.ptCumpl | percent: "1.0-0" }}</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td class="rb stickyCol">Totales</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes | number: "1.1-2"}}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorPpto | number: "1.1-2"}}</td>
-                                <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes / totals.ValorPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes | number: "1.1-2"}}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMesPpto | number: "1.1-2"}}</td>
-                                <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes / totals.TonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorMes / totals.TonMes | number: "1.1-2" }}</td>
-                                <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorPpto / totals.TonMesPpto | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDUni | number: "1.1-2"}}</td>
-                                <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDValor | number: "1.1-2"}}</td>
-                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.ValorPedPend | number: "1.1-2"}}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ totals.valorMes / totals.valorPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ (totals.valorMes + totals.valorPedPend) / totals.valorPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ (totals.tonMes ) / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -279,69 +246,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="filters" (mouseenter)="showFiltersBoxPreview()" (mouseleave)="hideFiltersBoxPreview()">
+                    <div class="filters" (click)="open(preview)">
                         <button type="button" class="btn btn-outline-primary big" (click)="openFilters()">
                             Filtrar
                         </button>
                         <button type="button" class="btn btn-outline-primary tiny" (click)="openFilters()">
                             <i class="fa-solid fa-filter-list"></i>
                         </button>
-                        <div class="box" *ngIf="showFilters">
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Canal?.length">
-                                <div class="title">Canal</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Canal">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Subcanal?.length">
-                                <div class="title">Subcanal</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Subcanal">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Linea?.length">
-                                <div class="title">Línea</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Linea">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Segmento?.length">
-                                <div class="title">Segmento</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Segmento">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Vendedor?.length">
-                                <div class="title">Vendedor</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Vendedor">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Cliente?.length">
-                                <div class="title">Cliente</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Cliente">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Producto?.length">
-                                <div class="title">Producto</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Producto">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.Marca?.length">
-                                <div class="title">Marca</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.Marca">{{ filter }}</span>
-                                </div>
-                            </div>
-                            <div class="categFlt" *ngIf="filters?.Filtro?.UEN?.length">
-                                <div class="title">UEN</div>
-                                <div class="categContent">
-                                    <span *ngFor="let filter of filters?.Filtro?.UEN">{{ filter }}</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
                         Limpiar
@@ -349,7 +260,6 @@
                     <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
                         <i class="fa-solid fa-filter-slash"></i>
                     </button>
-                    <!-- <button (click)="setFilterOpen(true)">Filtrar datos</button> -->
                 </div>
         </div>
         <section>
@@ -371,15 +281,19 @@
                             <th class="rb stickyCol">{{ currentActive }}</th>
                             <th *ngIf="showColumns.valor" style="text-align: end;">ValorMes</th>
                             <th *ngIf="showColumns.valor" style="text-align: end;">ValorPpto</th>
-                            <th class="rb" *ngIf="showColumns.valor" style="text-align: end;">Cumpl</th>
+                            <th *ngIf="showColumns.valor" style="text-align: end;" class="rb">Cumpl</th>
+                            <th *ngIf="showColumns.pedPend" style="text-align: end;">VlrPedPend</th>
+                            <th *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">Cump</th>
                             <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMes</th>
                             <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMesPpto</th>
-                            <th class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">Cumpl</th>
-                            <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTon</th>
-                            <th class="rb" *ngIf="showColumns.precTon" style="text-align: end;">PrecTonPpto</th>
+                            <th *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">Cumpl</th>
                             <th *ngIf="showColumns.plan" style="text-align: end;">PlanDUni</th>
-                            <th class="rb" *ngIf="showColumns.plan" style="text-align: end;">PlanDValor</th>
-                            <th *ngIf="showColumns.pedPend" style="text-align: end;">ValorPedPend</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;">Cump</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;">PlanDValor</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" class="rb" >Cump</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTon</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTonPpto</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;" class="rb">Cump</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -422,3 +336,70 @@
 </div>
 
 <filter-box></filter-box>
+
+<ng-template #preview let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Filtros actuales</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+
+        <div class="box" *ngIf="thereAreFilters()">
+            <div class="categFlt" *ngIf="filters?.Filtro?.Canal?.length">
+                <div class="title">Canal</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Canal">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Subcanal?.length">
+                <div class="title">Subcanal</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Subcanal">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Linea?.length">
+                <div class="title">Línea</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Linea">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Segmento?.length">
+                <div class="title">Segmento</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Segmento">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Vendedor?.length">
+                <div class="title">Vendedor</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Vendedor">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Cliente?.length">
+                <div class="title">Cliente</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Cliente">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Producto?.length">
+                <div class="title">Producto</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Producto">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Marca?.length">
+                <div class="title">Marca</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Marca">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.UEN?.length">
+                <div class="title">UEN</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.UEN">{{ filter }}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!thereAreFilters()">No hay filtros para mostrar</div>
+	</div>
+</ng-template>

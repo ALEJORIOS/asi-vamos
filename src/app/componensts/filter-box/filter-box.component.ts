@@ -87,6 +87,20 @@ export class FilterBoxComponent implements DoCheck {
     }
   }
 
+  order: any = {
+    UEN: 0,
+    Vendedor: 1,
+    Marca: 2,
+    Canal: 3,
+    Subcanal: 4,
+    Linea: 5,
+    Segmento: 6,
+    Cliente: 7,
+    Producto: 8,
+    Geografia: 9,
+    Director: 10
+  }
+
   getData() {
     const date: string = this.formatService.formatDate(this.currentDate, true, true);
     this.asiVamosService.dataClient.subscribe({
@@ -103,6 +117,7 @@ export class FilterBoxComponent implements DoCheck {
               this.data = res2;
               this.data.Segmentacion.map((seg: any) => seg.Valores = seg.Valores.map((val: any) => val.Valor));
               this.data.Segmentacion.forEach((seg: any) => {
+              seg.order = this.order[seg.Segmento]
                 if(seg.Segmento === this.currentBox) {
                   seg.Valores = retainLast;
                   this.currentBox = null;
@@ -123,6 +138,9 @@ export class FilterBoxComponent implements DoCheck {
                   seg.Valores.sort();
                 }
               })
+              this.data.Segmentacion.sort((a: any, b: any) => a.order - b.order);
+
+              console.log('>>> ', this.data);
 
               this.asiVamosService.allDirectors.mutate(sts => {
                 sts.list = res2.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores;
@@ -174,7 +192,7 @@ export class FilterBoxComponent implements DoCheck {
   }
 
   changeDirector(code: any, event: any) {
-    this.disableAll = true;
+    // this.disableAll = true;
     if(!event.target.checked) {
       this.temporalDirector = "";
       this.filters = this.filters.filter((flt: any) => flt.categoria !== "Director");
@@ -185,11 +203,11 @@ export class FilterBoxComponent implements DoCheck {
       this.temporalDirector = ((this.data.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores).filter((flt2: any) => flt2.startsWith(code))[0]).split('-')[1];      
       this.currentBox = null;
     }
-    this.formatFilters();
+    // this.formatFilters();
   }
 
   changeFilters(categoria: string, campo: string, evento: any) {
-    this.disableAll = true;
+    // this.disableAll = true;
     if(evento.target.checked) {
       this.currentBox = categoria;
       this.filters.push({categoria, campo});
@@ -204,7 +222,7 @@ export class FilterBoxComponent implements DoCheck {
       });
     }
     this.omitInit = true;
-    this.formatFilters();
+    // this.formatFilters();
   }
 
   formatFilters() {
@@ -218,6 +236,7 @@ export class FilterBoxComponent implements DoCheck {
     this.temporalFilters.Filtro.Producto = this.filters.filter((flt: any) => flt.categoria === "Producto").map((flt: any) => flt.campo);
     this.temporalFilters.Filtro.Marca = this.filters.filter((flt: any) => flt.categoria === "Marca").map((flt: any) => flt.campo);
     this.temporalFilters.Filtro.UEN = this.filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
+    this.temporalFilters.Filtro.Geografia = this.filters.filter((flt: any) => flt.categoria === "Geografia").map((flt: any) => flt.campo);
     if(this.filters.some((flt: any) => flt.categoria === "Director")) {
       this.temporalFilters.Filtro.Director = [this.temporalDirector];
     }

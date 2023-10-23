@@ -9,10 +9,11 @@ import { FormatService } from 'src/app/services/format.service';
 import { TopbarComponent } from 'src/app/componensts/topbar/topbar.component';
 import { FilterBoxComponent } from 'src/app/componensts/filter-box/filter-box.component';
 import { AsiVamosService, DataActions } from 'src/app/services/asi-vamos.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent, SpinnerMethods } from 'src/app/components/spinner/spinner.component';
 import { ActivatedRoute } from '@angular/router';
+import { left } from '@popperjs/core';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -21,7 +22,7 @@ registerLocaleData(localeEs, 'es');
   templateUrl: './asi-vamos.component.html',
   styleUrls: ['./asi-vamos.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
-  imports: [CommonModule, TopbarComponent, FilterBoxComponent, NgbDropdownModule, FormsModule, SpinnerComponent]
+  imports: [CommonModule, TopbarComponent, FilterBoxComponent, NgbDropdownModule, FormsModule, SpinnerComponent, NgbModalModule]
 })
 export default class AsiVamosComponent implements AfterViewInit {
 
@@ -29,6 +30,8 @@ export default class AsiVamosComponent implements AfterViewInit {
   @ViewChild('summaryTonsChart') summaryTonsChart: any;
   @ViewChild('comparativePriceChart') comparativePriceChart: any;
   @ViewChild('comparativeTonsChart') comparativeTonsChart: any;
+
+  @ViewChild('tableRef') tableRef: any;
 
   dataObject: any;
   currentDate: Date = new Date();
@@ -56,19 +59,19 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   rotateTable: boolean = false;
 
-  currentActive: string = "Canal";
+  currentActive: string = "UEN";
 
-  filters: any = {};
+  filters: any = {Filtro: {}};
 
   userData: any;
-
-  showFilters: boolean = false;
 
   inMenu: boolean = false;
 
   spinner = new SpinnerMethods();
 
   fullscreen: boolean = false;
+
+  currentOrder: string = "";
 
   showColumns: any = {
     valor: true,
@@ -79,13 +82,21 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
 
   totals: any = {
-    TonMes: 0,
-    TonMesPpto: 0,
-    ValorMes: 0,
-    ValorPpto: 0,
-    ValorPedPend: 0,
-    PlanDUni: 0,
-    PlanDValor: 0
+    valorMes: 0,
+    valorPpto: 0,
+    vCump: 0,
+    valorPedPend: 0,
+    pCump: 0,
+    tonMes: 0,
+    tonMesPpto: 0,
+    tCump: 0,
+    precTon: 0,
+    precTonPpto: 0,
+    ptCumpl: 0,
+    tonPlanD: 0,
+    tdCump: 0,
+    vlrPlanD: 0,
+    vdCump: 0
   }
 
   loading: any = {
@@ -100,7 +111,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     UEN: false
   }
 
-  constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService, private route: ActivatedRoute) {
+  constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService, private route: ActivatedRoute, private modalService: NgbModal) {
     this.initialize();
     effect(() => {
       if(asiVamosService.filterStatus().update) {
@@ -115,6 +126,7 @@ export default class AsiVamosComponent implements AfterViewInit {
           this.filters.Filtro.Producto = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Producto").map((flt: any) => flt.campo);
           this.filters.Filtro.Marca = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Marca").map((flt: any) => flt.campo);
           this.filters.Filtro.UEN = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "UEN").map((flt: any) => flt.campo);
+          this.filters.Filtro.Geografia = asiVamosService.filterStatus().filters.filter((flt: any) => flt.categoria === "Geografia").map((flt: any) => flt.campo);
         }else{
           this.filters.Filtro = {};
         }
@@ -136,6 +148,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     })
     this.userData = await this.asiVamosService.decryptToken(token);
     this.asiVamosService.dataClient.next(this.userData);
+    this.currentOrder = this.tableRef.nativeElement.children[0].children[0].children[1].textContent;
     this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
   }
   
@@ -143,24 +156,28 @@ export default class AsiVamosComponent implements AfterViewInit {
     this.spinner.loading = true;
     this.gridService.getRecords(director, period, segment, this.filters).subscribe({
       next: (res) => {
+        this.records = [];
         this.spinner.loading = false;
-        this.records = res;
-        this.records.sort((a: any, b: any) => {
-          if(b.Agrupacion > a.Agrupacion) {
-            return -1;
-          }else if(b.Agrupacion < a.Agrupacion){
-            return 1;
-          }else{
-            return 0
-          }
-          
-        
+        res.forEach((row: any, i: number) => {
+          this.records.push(Object.fromEntries(Object.entries(res[i]).map(([k, v]) => [k.charAt(0).toLowerCase()+k.slice(1), v])))
         });
+
+        this.records.forEach((rec: any) => {
+          rec.vCump = (rec.valorMes) / rec.valorPpto;
+          rec.pCump = (rec.valorMes + rec.valorPedPend) / rec.valorPpto;
+          rec.tCump = (rec.tonMes ) / rec.tonMesPpto;
+          rec.tdCump = (rec.planDUni ) / rec.tonMesPpto;
+          rec.vdCump = (rec.planDValor ) / rec.valorPpto;
+          rec.precTon = (rec.valorMes ) / rec.tonMes;
+          rec.precTonPpto = (rec.valorPpto ) / rec.tonMesPpto;
+          rec.ptCumpl = (rec.precTon ) / rec.precTonPpto;
+        })
         this.updateTotals();
         this.updateData(res);
         Object.keys(this.loading).forEach(categ => {
           this.loading[categ] = false;
         })
+        this.orderCol(this.tableRef.nativeElement.children[0].children[0].children[1].textContent)
       }
     })
   }
@@ -186,14 +203,16 @@ export default class AsiVamosComponent implements AfterViewInit {
   }
 
   removeFilter() {
-    this.userData.Vendedor = 0;
-    this.asiVamosService.allDirectors.mutate(sts => sts.current = 0)
+    this.currentOrder = "";
+    // this.userData.Vendedor = use;
+    this.asiVamosService.allDirectors.mutate(sts => sts.current = this.userData.Vendedor)
     this.asiVamosService.filterStatus.mutate(sts => sts.filters = []);
     this.asiVamosService.filterStatus.mutate(sts => sts.update = true);
     this.asiVamosService.removeFilters.next(true);
   }
   
   openFilters() {
+    window.scroll({top: 0, left: 0, behavior: 'smooth'})
     this.asiVamosService.filterStatus.mutate(sts => sts.open = true);
   }
 
@@ -201,19 +220,33 @@ export default class AsiVamosComponent implements AfterViewInit {
     this.rotateTable = !this.rotateTable;
   }
 
-  showFiltersBoxPreview() {
-    if(this.filters.Filtro && Object.keys(this.filters.Filtro).length && this.asiVamosService.filterStatus().filters.length) {
-      this.showFilters = true;
-    }
+  open(modalRef: any){
+    this.modalService.open(modalRef);
+    console.log('>>> ', this.filters);
+    console.log('>>> ', Boolean(Object.keys(this.filters.Filtro).length));
+  }
+
+  thereAreFilters(): boolean {
+    return Boolean(Object.keys(this.filters.Filtro).length);
   }
 
   toggleFullscreen() {
-    console.log('Entra');
     this.fullscreen = !this.fullscreen;
   }
 
-  hideFiltersBoxPreview() {
-    this.showFilters = false;
+  orderCol(col: string) {
+
+    this.records.sort((a: any, b: any) => {
+      if(b[col] > a[col]) {
+        return col === this.currentOrder ? 1 : -1;
+      }else if(b[col] < a[col]){
+        return col === this.currentOrder ? -1 : 1;
+      }else{
+        return 0
+      }
+    });
+
+    this.currentOrder = this.currentOrder === col ? "" : col;
   }
 
   updateData(res: any) {
