@@ -16,8 +16,15 @@
 
         .arrow {
             &::after {
-                content: "▼";
+                content: "";
                 color: #1199F4;
+                width: 24px;
+                aspect-ratio: 1;
+                background-image: url("../../../assets/deploy.svg");
+                background-repeat: no-repeat;
+                background-position: 4px 4px;
+                background-size: 18px;
+                filter: invert(50%) sepia(66%) saturate(2259%) hue-rotate(178deg) brightness(93%) contrast(105%);
             }
         }
         .content {

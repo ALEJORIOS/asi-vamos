@@ -139,9 +139,6 @@ export class FilterBoxComponent implements DoCheck {
                 }
               })
               this.data.Segmentacion.sort((a: any, b: any) => a.order - b.order);
-
-              console.log('>>> ', this.data);
-
               this.asiVamosService.allDirectors.mutate(sts => {
                 sts.list = res2.Segmentacion.filter((flt: any) => flt.Segmento === 'Director')[0].Valores;
                 sts.current = this.temporalDirector;

@@ -78,7 +78,8 @@ export default class AsiVamosComponent implements AfterViewInit {
     tonelada: true,
     precTon: true,
     plan: true,
-    pedPend: true
+    pedPend: true,
+    pedPendTon: true
   }
 
   totals: any = {
@@ -96,7 +97,10 @@ export default class AsiVamosComponent implements AfterViewInit {
     tonPlanD: 0,
     tdCump: 0,
     vlrPlanD: 0,
-    vdCump: 0
+    vdCump: 0,
+    planDTon: 0,
+    planDValor: 0,
+    tonPedPend: 0
   }
 
   loading: any = {
@@ -166,11 +170,13 @@ export default class AsiVamosComponent implements AfterViewInit {
           rec.vCump = (rec.valorMes) / rec.valorPpto;
           rec.pCump = (rec.valorMes + rec.valorPedPend) / rec.valorPpto;
           rec.tCump = (rec.tonMes ) / rec.tonMesPpto;
-          rec.tdCump = (rec.planDUni ) / rec.tonMesPpto;
           rec.vdCump = (rec.planDValor ) / rec.valorPpto;
+          rec.tdCump = (rec.planDTon ) / rec.tonMesPpto;
+          rec.tpCump = (rec.tonPedPend) / rec.tonMesPpto;
           rec.precTon = (rec.valorMes ) / rec.tonMes;
           rec.precTonPpto = (rec.valorPpto ) / rec.tonMesPpto;
           rec.ptCumpl = (rec.precTon ) / rec.precTonPpto;
+
         })
         this.updateTotals();
         this.updateData(res);

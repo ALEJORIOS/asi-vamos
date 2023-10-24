@@ -77,10 +77,33 @@
                         <button type="button" class="btn btn-outline-primary tiny" (click)="toggleFullscreen()">
                             <i class="fa-sharp fa-solid fa-expand"></i>
                         </button> -->
+                        <!-- Columnas -->
                         <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <!-- <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
-                                Columnas
-                            </button> -->
+                            <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
+                                <i class="fa-sharp fa-solid fa-ruler-triangle"></i>&nbsp;Columnas
+                            </button>
+                            <div ngbDropdownMenu>
+                                <div class="d-flex gap-5 px-3 py-2">
+                                    <div class="d-flex flex-column">
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                                        <div class="dropdown-divider"></div>
+                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPendTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes Ton</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                            <button type="button" class="btn btn-outline-primary tiny" ngbDropdownToggle>
+                                <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
+                            </button>
                             <div ngbDropdownMenu>
                                 <div class="d-flex gap-5 px-3 py-2">
                                     <div class="d-flex flex-column">
@@ -97,13 +120,17 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-outline-primary tiny" (click)="$event.stopPropagation(); dropColumns.open()">
-                            <i class="fa-sharp fa-solid fa-ruler-triangle"></i>epa
-                        </button>
+                        <!-- Filtrar -->
                         <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
                             <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
-                                Filtrar
+                                <i class="fa-solid fa-filter-list"></i>&nbsp;Filtrar
                             </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                                <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                                <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                            </div>
+                        </div>
+                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
                             <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
                                 <i class="fa-solid fa-filter-list"></i>
                             </button>
@@ -112,8 +139,9 @@
                                 <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
                             </div>
                         </div>
+                        <!-- Limpiar -->
                         <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
-                            Limpiar
+                            <i class="fa-solid fa-filter-slash"></i>&nbsp;Limpiar
                         </button>
                         <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
                             <i class="fa-solid fa-filter-slash"></i>
@@ -139,21 +167,23 @@
                         <thead>
                             <tr style="cursor: pointer;">
                                 <th class="rb stickyCol">{{ currentActive }}</th>
-                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes">ValorMes</th>
-                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado">ValorPpto</th>
-                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Cumplimiento" class="rb">Cumpl</th>
-                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Valor pedidos pendientes">VlrPedPend</th>
-                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Cumplimiento" class="rb">Cump</th>
-                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Tonelada Mes">TonMes</th>
-                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Toneladas presupuestadas">TonMesPpto</th>
-                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Cumplimiento" class="rb">Cumpl</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda">PlanDUni</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento">Cump</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor">PlanDValor</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" >Cump</th>
-                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada">PrecTon</th>
-                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada presupuestada">PrecTonPpto</th>
-                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Cumplimiento" class="rb">Cump</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes" (click)="orderCol('valorMes')">ValorMes</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado" (click)="orderCol('valorPpto')">ValorPpto</th>
+                                <th *ngIf="showColumns.valor" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('vCump')">Cumpl</th>
+                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Valor pedidos pendientes" (click)="orderCol('valorPedPend')">VlrPedPend</th>
+                                <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('pCump')">Cump</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Tonelada Mes" (click)="orderCol('tonMes')">TonMes</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Toneladas presupuestadas" (click)="orderCol('tonMesPpto')">TonMesPpto</th>
+                                <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tCump')">Cumpl</th>
+                                <th *ngIf="showColumns.pedPendTon" style="text-align: end;" title="Tonelada pedidos pendientes" (click)="orderCol('tonPedPend')">TonPedPend</th>
+                                <th *ngIf="showColumns.pedPendTon" style="text-align: end;" class="rb" title="Cumplimiento" (click)="orderCol('tpCump')">Cumpl</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor" (click)="orderCol('planDValor')">PlanDValor</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb"  (click)="orderCol('vdCump')">Cump</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda" (click)="orderCol('planDTon')">PlanDTon</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tdCump')">Cump</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada" (click)="orderCol('precTon')">PrecTon</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada presupuestada" (click)="orderCol('precTonPpto')">PrecTonPpto</th>
+                                <th *ngIf="showColumns.precTon" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('ptCumpl')">Cump</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,10 +198,12 @@
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ record.tCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ 0 | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tpCump | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.vdCump | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ record.ptCumpl | percent: "1.0-0" }}</td>
@@ -187,11 +219,13 @@
                                 <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ (totals.valorMes + totals.valorPedPend) / totals.valorPpto | percent: "1.0-0" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ (totals.tonMes ) / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ 0 | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">0</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ 0 | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ totals.tonMes / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.tonPedPend / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDValor / totals.valorPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
@@ -391,6 +425,12 @@
                 <div class="title">Marca</div>
                 <div class="categContent">
                     <span *ngFor="let filter of filters?.Filtro?.Marca">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="categFlt" *ngIf="filters?.Filtro?.Geografia?.length">
+                <div class="title">Geografía</div>
+                <div class="categContent">
+                    <span *ngFor="let filter of filters?.Filtro?.Geografia">{{ filter }}</span>
                 </div>
             </div>
             <div class="categFlt" *ngIf="filters?.Filtro?.UEN?.length">
