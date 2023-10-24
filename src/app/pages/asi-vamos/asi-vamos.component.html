@@ -53,100 +53,100 @@
         <section>
             <div class="title">
                 <h3 style="margin: 0; justify-self: center;">Mes Actual <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
-                    <div class="actionGroup">
-                        <div ngbDropdown container="body" class="d-inline-block dropdown">
-                            <button type="button" class="btn btn-outline-primary group" ngbDropdownToggle>
-                                <i class="fa fa-list-ul fa-lg"></i>
-                            </button>
-                            <div ngbDropdownMenu>
-                                <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
-                                <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
-                                <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
-                                <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
-                                <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
-                                <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
-                                <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
-                                <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
-                                <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
-                                
-                            </div>
-                        </div>
-                        <!-- <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
-                            Pantalla Completa
+                <div class="actionGroup">
+                    <div ngbDropdown container="body" class="d-inline-block dropdown">
+                        <button type="button" class="btn btn-outline-primary group" ngbDropdownToggle>
+                            <i class="fa fa-list-ul fa-lg"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-primary tiny" (click)="toggleFullscreen()">
-                            <i class="fa-sharp fa-solid fa-expand"></i>
-                        </button> -->
-                        <!-- Columnas -->
-                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
-                                <i class="fa-sharp fa-solid fa-ruler-triangle"></i>&nbsp;Columnas
-                            </button>
-                            <div ngbDropdownMenu>
-                                <div class="d-flex gap-5 px-3 py-2">
-                                    <div class="d-flex flex-column">
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPendTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes Ton</label>
-                                    </div>
-                                </div>
-                            </div>
+                        <div ngbDropdownMenu>
+                            <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
+                            <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
+                            <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
+                            <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
+                            <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
+                            <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
+                            <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
+                            <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
+                            <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
+                            
                         </div>
-                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <button type="button" class="btn btn-outline-primary tiny" ngbDropdownToggle>
-                                <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
-                            </button>
-                            <div ngbDropdownMenu>
-                                <div class="d-flex gap-5 px-3 py-2">
-                                    <div class="d-flex flex-column">
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
-                                        <div class="dropdown-divider"></div>
-                                        <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Filtrar -->
-                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
-                                <i class="fa-solid fa-filter-list"></i>&nbsp;Filtrar
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-                                <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
-                                <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
-                            </div>
-                        </div>
-                        <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                            <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
-                                <i class="fa-solid fa-filter-list"></i>
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-                                <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
-                                <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
-                            </div>
-                        </div>
-                        <!-- Limpiar -->
-                        <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
-                            <i class="fa-solid fa-filter-slash"></i>&nbsp;Limpiar
-                        </button>
-                        <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
-                            <i class="fa-solid fa-filter-slash"></i>
-                        </button>
                     </div>
+                    <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
+                        <i class="fa-sharp fa-solid fa-expand"></i>&nbsp;Pantalla Completa
+                    </button>
+                    <button type="button" class="btn btn-outline-primary tiny" (click)="toggleFullscreen()">
+                        <i class="fa-sharp fa-solid fa-expand"></i>
+                    </button>
+                    <!-- Columnas -->
+                    <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                        <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
+                            <i class="fa-sharp fa-solid fa-ruler-triangle"></i>&nbsp;Columnas
+                        </button>
+                        <div ngbDropdownMenu>
+                            <div class="d-flex gap-5 px-3 py-2">
+                                <div class="d-flex flex-column">
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.pedPendTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes Ton</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                        <button type="button" class="btn btn-outline-primary tiny" ngbDropdownToggle>
+                            <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
+                        </button>
+                        <div ngbDropdownMenu>
+                            <div class="d-flex gap-5 px-3 py-2">
+                                <div class="d-flex flex-column">
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                    <div class="dropdown-divider"></div>
+                                    <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Filtrar -->
+                    <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                        <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
+                            <i class="fa-solid fa-filter-list"></i>&nbsp;Filtrar
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                            <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                            <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                        </div>
+                    </div>
+                    <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                        <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
+                            <i class="fa-solid fa-filter-list"></i>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                            <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                            <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                        </div>
+                    </div>
+                    <!-- Limpiar -->
+                    <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
+                        <i class="fa-solid fa-filter-slash"></i>&nbsp;Limpiar
+                    </button>
+                    <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
+                        <i class="fa-solid fa-filter-slash"></i>
+                    </button>
+                </div>
             </div>
             <section>
                 <div class="buttonGroup">
@@ -238,129 +238,183 @@
     </div>
     <div *ngIf="fullscreen" class="fullscreentable">
         <div class="title">
-            <h3 style="margin: 0; justify-self: center;">Mes Actual Nacional&nbsp;<span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
-                <div class="actionGroup">
-                    <div ngbDropdown container="body" class="d-inline-block dropdown">
-                        <button type="button" class="btn btn-outline-primary group" id="dropdownForm2" ngbDropdownToggle>
-                            <i class="fa fa-list-ul fa-lg"></i>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownForm2">
-                            <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
-                            <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
-                            <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
-                            <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
-                            <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
-                            <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
-                            <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
-                            <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
-                            <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
-                            
-                        </div>
+            <h3 style="margin: 0; justify-self: center;">Mes Actual <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
+            <div class="actionGroup">
+                <div ngbDropdown container="body" class="d-inline-block dropdown">
+                    <button type="button" class="btn btn-outline-primary group" ngbDropdownToggle>
+                        <i class="fa fa-list-ul fa-lg"></i>
+                    </button>
+                    <div ngbDropdownMenu>
+                        <button ngbDropdownItem (click)="setCurrent('UEN')">UEN</button>
+                        <button ngbDropdownItem (click)="setCurrent('Vendedor')">Vendedor</button>
+                        <button ngbDropdownItem (click)="setCurrent('Marca')">Marca</button>
+                        <button ngbDropdownItem (click)="setCurrent('Canal')">Canal</button>
+                        <button ngbDropdownItem (click)="setCurrent('Subcanal')">Subcanal</button>
+                        <button ngbDropdownItem (click)="setCurrent('Linea')">Línea</button>
+                        <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
+                        <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
+                        <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
+                        
                     </div>
-                    <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
-                        <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
-                            Columnas
-                        </button>
-                        <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
-                            <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-                            <div class="d-flex gap-5 px-3 py-2">
-                                <div class="d-flex flex-column">
-                                    <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
-                                    <div class="dropdown-divider"></div>
-                                    <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
-                                    <div class="dropdown-divider"></div>
-                                    <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
-                                    <div class="dropdown-divider"></div>
-                                    <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
-                                    <div class="dropdown-divider"></div>
-                                    <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
-                                </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
+                    <i class="fa-sharp fa-solid fa-expand"></i>&nbsp;Pantalla Completa
+                </button>
+                <button type="button" class="btn btn-outline-primary tiny" (click)="toggleFullscreen()">
+                    <i class="fa-sharp fa-solid fa-expand"></i>
+                </button>
+                <!-- Columnas -->
+                <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                    <button type="button" class="btn btn-outline-primary big" ngbDropdownToggle>
+                        <i class="fa-sharp fa-solid fa-ruler-triangle"></i>&nbsp;Columnas
+                    </button>
+                    <div ngbDropdownMenu>
+                        <div class="d-flex gap-5 px-3 py-2">
+                            <div class="d-flex flex-column">
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.pedPendTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes Ton</label>
                             </div>
                         </div>
                     </div>
-                    <div class="filters" (click)="open(preview)">
-                        <button type="button" class="btn btn-outline-primary big" (click)="openFilters()">
-                            Filtrar
-                        </button>
-                        <button type="button" class="btn btn-outline-primary tiny" (click)="openFilters()">
-                            <i class="fa-solid fa-filter-list"></i>
-                        </button>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
-                        Limpiar
-                    </button>
-                    <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
-                        <i class="fa-solid fa-filter-slash"></i>
-                    </button>
                 </div>
+                <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                    <button type="button" class="btn btn-outline-primary tiny" ngbDropdownToggle>
+                        <i class="fa-sharp fa-solid fa-ruler-triangle"></i>
+                    </button>
+                    <div ngbDropdownMenu>
+                        <div class="d-flex gap-5 px-3 py-2">
+                            <div class="d-flex flex-column">
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.valor" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Valor</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.tonelada" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.precTon" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Precio/Tonelada</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.plan" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Plan Demanda</label>
+                                <div class="dropdown-divider"></div>
+                                <label class="form-check-label"><input [(ngModel)]="showColumns.pedPend" (change)="dropColumns.close()" type="checkbox" class="form-check-input"/>&nbsp;Pedidos Pendientes</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Filtrar -->
+                <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                    <button type="button" class="btn btn-outline-primary big" id="dropdownForm1" ngbDropdownToggle>
+                        <i class="fa-solid fa-filter-list"></i>&nbsp;Filtrar
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                        <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                    </div>
+                </div>
+                <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
+                    <button type="button" class="btn btn-outline-primary tiny" id="dropdownForm1" ngbDropdownToggle>
+                        <i class="fa-solid fa-filter-list"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+                        <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
+                        <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                    </div>
+                </div>
+                <!-- Limpiar -->
+                <button type="button" class="btn btn-outline-primary big" (click)="removeFilter()">
+                    <i class="fa-solid fa-filter-slash"></i>&nbsp;Limpiar
+                </button>
+                <button type="button" class="btn btn-outline-primary tiny" (click)="removeFilter()">
+                    <i class="fa-solid fa-filter-slash"></i>
+                </button>
+            </div>
         </div>
         <section>
             <div class="buttonGroup">
+                <button (click)="setCurrent('UEN')" [ngClass]="{'current': currentActive === 'UEN'}">UEN <i *ngIf="loading.UEN" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                <button (click)="setCurrent('Vendedor')" [ngClass]="{'current': currentActive === 'Vendedor'}">Vendedor <i *ngIf="loading.Vendedor" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                <button (click)="setCurrent('Marca')" [ngClass]="{'current': currentActive === 'Marca'}">Marca <i *ngIf="loading.Marca" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Canal')" [ngClass]="{'current': currentActive === 'Canal'}">Canal <i *ngIf="loading.Canal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Subcanal')" [ngClass]="{'current': currentActive === 'Subcanal'}">Subcanal <i *ngIf="loading.Subcanal" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Linea')" [ngClass]="{'current': currentActive === 'Linea'}">Línea <i *ngIf="loading.Linea" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Segmento')" [ngClass]="{'current': currentActive === 'Segmento'}">Segmento <i *ngIf="loading.Segmento" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                <button (click)="setCurrent('Vendedor')" [ngClass]="{'current': currentActive === 'Vendedor'}">Vendedor <i *ngIf="loading.Vendedor" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Cliente')" [ngClass]="{'current': currentActive === 'Cliente'}">Cliente <i *ngIf="loading.Cliente" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
                 <button (click)="setCurrent('Producto')" [ngClass]="{'current': currentActive === 'Producto'}">Producto <i *ngIf="loading.Producto" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                <button (click)="setCurrent('Marca')" [ngClass]="{'current': currentActive === 'Marca'}">Marca <i *ngIf="loading.Marca" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
-                <button (click)="setCurrent('UEN')" [ngClass]="{'current': currentActive === 'UEN'}">UEN <i *ngIf="loading.UEN" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                <button (click)="setCurrent('Geografia')" [ngClass]="{'current': currentActive === 'Geografia'}">Geografia <i *ngIf="loading.Geografia" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
+                <button (click)="setCurrent('Director')" [ngClass]="{'current': currentActive === 'Director'}">Director <i *ngIf="loading.Director" class="fa-duotone fa-spinner-third fa-spin" style="--fa-primary-color: #38bdff; --fa-secondary-color: #38bdff; --fa-secondary-opacity: 0.2;"></i></button>
             </div>
-            <div class="content" (dblclick)="toggleFullscreen()">
-                <table>
+            <div class="content">
+                <table #tableRef>
                     <thead>
-                        <tr>
+                        <tr style="cursor: pointer;">
                             <th class="rb stickyCol">{{ currentActive }}</th>
-                            <th *ngIf="showColumns.valor" style="text-align: end;">ValorMes</th>
-                            <th *ngIf="showColumns.valor" style="text-align: end;">ValorPpto</th>
-                            <th *ngIf="showColumns.valor" style="text-align: end;" class="rb">Cumpl</th>
-                            <th *ngIf="showColumns.pedPend" style="text-align: end;">VlrPedPend</th>
-                            <th *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">Cump</th>
-                            <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMes</th>
-                            <th *ngIf="showColumns.tonelada" style="text-align: end;">TonMesPpto</th>
-                            <th *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">Cumpl</th>
-                            <th *ngIf="showColumns.plan" style="text-align: end;">PlanDUni</th>
-                            <th *ngIf="showColumns.plan" style="text-align: end;">Cump</th>
-                            <th *ngIf="showColumns.plan" style="text-align: end;">PlanDValor</th>
-                            <th *ngIf="showColumns.plan" style="text-align: end;" class="rb" >Cump</th>
-                            <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTon</th>
-                            <th *ngIf="showColumns.precTon" style="text-align: end;">PrecTonPpto</th>
-                            <th *ngIf="showColumns.precTon" style="text-align: end;" class="rb">Cump</th>
+                            <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes" (click)="orderCol('valorMes')">ValorMes</th>
+                            <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado" (click)="orderCol('valorPpto')">ValorPpto</th>
+                            <th *ngIf="showColumns.valor" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('vCump')">Cumpl</th>
+                            <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Valor pedidos pendientes" (click)="orderCol('valorPedPend')">VlrPedPend</th>
+                            <th *ngIf="showColumns.pedPend" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('pCump')">Cump</th>
+                            <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Tonelada Mes" (click)="orderCol('tonMes')">TonMes</th>
+                            <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Toneladas presupuestadas" (click)="orderCol('tonMesPpto')">TonMesPpto</th>
+                            <th *ngIf="showColumns.tonelada" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tCump')">Cumpl</th>
+                            <th *ngIf="showColumns.pedPendTon" style="text-align: end;" title="Tonelada pedidos pendientes" (click)="orderCol('tonPedPend')">TonPedPend</th>
+                            <th *ngIf="showColumns.pedPendTon" style="text-align: end;" class="rb" title="Cumplimiento" (click)="orderCol('tpCump')">Cumpl</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor" (click)="orderCol('planDValor')">PlanDValor</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb"  (click)="orderCol('vdCump')">Cump</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda" (click)="orderCol('planDTon')">PlanDTon</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tdCump')">Cump</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada" (click)="orderCol('precTon')">PrecTon</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada presupuestada" (click)="orderCol('precTonPpto')">PrecTonPpto</th>
+                            <th *ngIf="showColumns.precTon" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('ptCumpl')">Cump</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let record of records">
-                            <td class="rb stickyCol" *ngIf="currentActive === 'Cliente'" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.Agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.Agrupacion }}</td>
-                            <td class="rb stickyCol" *ngIf="currentActive !== 'Cliente'" noWrap>{{ record.Agrupacion }}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorPpto | number: "1.1-2" }}</td>
-                            <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ record.ValorMes / record.ValorPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMesPpto | number: "1.1-2" }}</td>
-                            <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.TonMes / record.TonMesPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorMes / record.TonMes | number: "1.1-2" }}</td>
-                            <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ record.ValorPpto / record.TonMesPpto | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDUni | number: "1.1-2" }}</td>
-                            <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ record.PlanDValor | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.ValorPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="currentActive === 'Cliente'" class="rb stickyCol" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.agrupacion }}</td>
+                            <td *ngIf="currentActive !== 'Cliente'" class="rb stickyCol" noWrap>{{ record.agrupacion }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ record.vCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ record.pCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ record.tCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tpCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.vdCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ record.ptCumpl | percent: "1.0-0" }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td class="rb stickyCol">Totales</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes | number: "1.1-2"}}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorPpto | number: "1.1-2"}}</td>
-                            <td class="rb" *ngIf="showColumns.valor" style="text-align: end;">{{ totals.ValorMes / totals.ValorPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes | number: "1.1-2"}}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMesPpto | number: "1.1-2"}}</td>
-                            <td class="rb" *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.TonMes / totals.TonMesPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorMes / totals.TonMes | number: "1.1-2" }}</td>
-                            <td class="rb" *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.ValorPpto / totals.TonMesPpto | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDUni | number: "1.1-2"}}</td>
-                            <td class="rb" *ngIf="showColumns.plan" style="text-align: end;">{{ totals.PlanDValor | number: "1.1-2"}}</td>
-                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.ValorPedPend | number: "1.1-2"}}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ totals.valorMes / totals.valorPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ (totals.valorMes + totals.valorPedPend) / totals.valorPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ totals.tonMes / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.tonPedPend / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDValor / totals.valorPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                         </tr>
                     </tfoot>
                 </table>
