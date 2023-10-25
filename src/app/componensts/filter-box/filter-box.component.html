@@ -16,7 +16,7 @@
                     </div>
                     <div class="content">
                         <div>
-                            <label *ngIf="tiny && segment.Segmento !== 'Director'"><input type="checkbox" (change)="toggleCheck(segment.Valores, segment.Segmento)"><b>Intercambiar</b></label>
+                            <label *ngIf="tiny && segment.Segmento !== 'Director'"><input type="checkbox" (change)="toggleCheck(segment.Valores, segment.Segmento)"><span style="color: #1199F4">Intercambiar</span></label>
                             <label *ngFor="let value of segment.Valores" [ngClass]="{'selected': selectedDirector(value)}">
                                 <input *ngIf="segment.Segmento !== 'Director'" [disabled]="disableAll" [checked]="isChecked(segment.Segmento, value)" (change)="changeFilters(segment.Segmento, value, $event)" type="checkbox"><span *ngIf="segment.Segmento !== 'Director'">{{ value }}</span>
                                 <input *ngIf="segment.Segmento === 'Director'" class="directorCheck" [disabled]="disableAll" type="checkbox" [checked]="value.split('-')[1] === temporalDirector" (change)="changeDirector(value.split('-')[0], $event)"><span *ngIf="segment.Segmento === 'Director'">{{ value.split('-')[1] }}</span>

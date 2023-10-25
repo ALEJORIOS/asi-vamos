@@ -250,7 +250,7 @@
         justify-content: start;
         align-items: start;
         gap: 8px;
-        min-height: 100vh;
+        min-height: 100dvh;
         .title {
             display: flex;
             justify-content: space-between;
@@ -532,7 +532,7 @@
 
 .fullscreentable {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: white;
     z-index: 100;
     position: absolute;
@@ -543,6 +543,6 @@
 }
 
 .limit {
-    max-height: calc(100vh - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
     margin-top: 0;
 }
