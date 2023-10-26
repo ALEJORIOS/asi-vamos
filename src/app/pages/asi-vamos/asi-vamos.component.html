@@ -68,7 +68,6 @@
                             <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
                             <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
                             <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
-                            
                         </div>
                     </div>
                     <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
@@ -165,7 +164,7 @@
                 <div class="content">
                     <table #tableRef>
                         <thead>
-                            <tr style="cursor: pointer;">
+                            <tr style="cursor: none;">
                                 <th class="rb stickyCol">{{ currentActive }}</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes" (click)="orderCol('valorMes')">ValorMes</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado" (click)="orderCol('valorPpto')">ValorPpto</th>

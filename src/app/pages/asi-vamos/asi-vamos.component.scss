@@ -42,6 +42,7 @@
             }
             h3 {
                 margin: 0;
+                font-size: 23px;
             }
         }
         .info {
@@ -89,6 +90,7 @@
         .title {
             display: flex;
             justify-content: space-between;
+            
             .dropdown {
                 position: sticky;
                 top: 0;
@@ -104,6 +106,14 @@
             display: flex;
             gap: 8px;
             position: relative;
+            .dropdown {
+                button {
+                    font-size: 14px;
+                }
+            }
+            .btn {
+                font-size: 14px;
+            }
             .group {
                 display: none;
             }
@@ -126,7 +136,8 @@
                 .categFlt {
                     display: flex;
                     flex-direction: column;
-                    .title {}
+                    .title {
+                    }
                     .categContent {
                         display: flex;
                         flex-direction: column;
@@ -254,6 +265,7 @@
         .title {
             display: flex;
             justify-content: space-between;
+            width: 100%;
             .dropdown {
                 position: sticky;
                 top: 0;
@@ -480,11 +492,20 @@
     }
 }
 
-@media ( width < 760px) {
+@media ( width < 880px) {
 
     .layout {
         .table, .fullscreentable {
             .actionGroup {
+                gap: 4px;
+                .dropdown {
+                    button {
+                        font-size: 10px;
+                    }
+                }
+                .btn {
+                    font-size: 10px;
+                }
                 .group {
                     display: block;
                 }
