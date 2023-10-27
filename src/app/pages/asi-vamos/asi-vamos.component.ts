@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, LOCALE_ID, effect } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, LOCALE_ID, effect, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as charts from 'src/assets/charts';
 
@@ -72,6 +72,16 @@ export default class AsiVamosComponent implements AfterViewInit {
   fullscreen: boolean = false;
 
   currentOrder: string = "";
+
+  clientFilter: any = {
+    input: '',
+    results: []
+  }
+
+  productFilter: any = {
+    input: '',
+    results: []
+  }
 
   showColumns: any = {
     valor: true,
@@ -162,7 +172,6 @@ export default class AsiVamosComponent implements AfterViewInit {
     })
     this.userData = await this.asiVamosService.decryptToken(token);
     this.asiVamosService.dataClient.next(this.userData);
-    // this.currentOrder = this.equivalences[this.tableRef.nativeElement.children[0].children[0].children[1].textContent];
     this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
   }
   
@@ -239,8 +248,48 @@ export default class AsiVamosComponent implements AfterViewInit {
 
   open(modalRef: any){
     this.modalService.open(modalRef);
-    console.log('>>> ', this.filters);
-    console.log('>>> ', Boolean(Object.keys(this.filters.Filtro).length));
+    const modalName: string = modalRef._declarationTContainer.localNames[0];
+    if(modalName === 'client' || modalName === 'product') {
+      this.clientFilter.results = [];
+      this.clientFilter.input = "";
+      this.productFilter.results = [];
+      this.productFilter.input = "";
+    }
+  }
+
+  updateClientFilter() {
+    this.gridService.getClients(this.clientFilter.input, 10).subscribe({
+      next: (res) => {
+        this.clientFilter.results = res;
+        if(res.every((elem: any) => elem.Descripcion === this.clientFilter.input) || res.every((elem: any) => elem.Codigo === this.clientFilter.input)) {
+          this.clientFilter.results = [];
+        }
+        
+      }
+    })
+  }
+
+  updateProductFilter() {
+    this.gridService.getProducts(this.productFilter.input, 10).subscribe({
+      next: (res) => {
+        this.productFilter.results = res;
+        if(res.every((elem: any) => elem.Descripcion === this.productFilter.input) || res.every((elem: any) => elem.Codigo === this.productFilter.input)) {
+          this.productFilter.results = [];
+        }        
+      }
+    })
+  }
+
+  executeClientFilter() {
+    this.filters.Filtro.CodCliente = [+this.clientFilter.input];
+    this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
+    this.modalService.dismissAll();
+  }
+
+  executeProductFilter() {
+    this.filters.Filtro.CodProducto = [+this.productFilter.input];
+    this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
+    this.modalService.dismissAll();
   }
 
   thereAreFilters(): boolean {

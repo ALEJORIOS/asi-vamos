@@ -405,6 +405,19 @@
     }
 }
 
+.clientList {
+    width: 100%;
+    border: 1px solid #D0D0D0;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 4px;
+    height: 28px;
+    box-sizing: border-box;
+    &:focus {
+        border: 2px solid #0f81cd;
+    }
+}
+
 .form-check-input:checked {
     background-color: #1199F4;
     border-color: #0f81cd;
@@ -415,13 +428,13 @@
 }
 
 .btn {
-    border-color: #1199F4;
-    color: #1199F4;
+    border-color: #1199F4 !important;
+    color: #1199F4 !important;
 }
 
 .btn:hover {
-    background-color: #1199F4;
-    color: white;
+    background-color: #1199F4 !important;
+    color: white !important;
 }
 
 @media ( width < 1100px) {

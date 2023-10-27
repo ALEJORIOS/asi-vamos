@@ -127,6 +127,8 @@
                         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
                             <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
                             <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                            <button ngbDropdownItem (click)="open(client)">Cliente</button>
+                            <button ngbDropdownItem (click)="open(product)">Producto</button>
                         </div>
                     </div>
                     <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
@@ -136,6 +138,8 @@
                         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
                             <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
                             <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                            <button ngbDropdownItem (click)="open(client)">Cliente</button>
+                            <button ngbDropdownItem (click)="open(product)">Producto</button>
                         </div>
                     </div>
                     <!-- Limpiar -->
@@ -315,6 +319,8 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownForm1">
                         <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
                         <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                        <button ngbDropdownItem (click)="open(client)">Cliente</button>
+                            <button ngbDropdownItem (click)="open(product)">Producto</button>
                     </div>
                 </div>
                 <div ngbDropdown container="body" class="d-inline-block dropdown" #dropColumns="ngbDropdown">
@@ -324,6 +330,8 @@
                     <div ngbDropdownMenu aria-labelledby="dropdownForm1">
                         <button ngbDropdownItem (click)="openFilters()">Filtrar</button>
                         <button ngbDropdownItem (click)="open(preview)">Ver Filtros</button>
+                        <button ngbDropdownItem (click)="open(client)">Cliente</button>
+                        <button ngbDropdownItem (click)="open(product)">Producto</button>
                     </div>
                 </div>
                 <!-- Limpiar -->
@@ -496,5 +504,39 @@
             </div>
         </div>
         <div *ngIf="!thereAreFilters()">No hay filtros para mostrar</div>
+    </div>
+</ng-template>
+
+<ng-template #client let-modal>
+    <div class="modal-header">
+        <h4>Buscar cliente</h4>
+        <button type='button' class='btn-close' aria-label='Close' (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Introduzca el código o el nombre del cliente.</p>
+        <input class="clientList" list="clients" [(ngModel)]="clientFilter.input" (input)="updateClientFilter()">
+        <datalist id="clients">
+            <option *ngFor="let client of clientFilter.results" [value]="client.Codigo">{{ client.Descripcion }}</option>
+        </datalist>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-primary" (click)="executeClientFilter()">Filtrar Cliente</button>
+    </div>
+</ng-template>
+
+<ng-template #product let-modal>
+    <div class="modal-header">
+        <h4>Buscar producto</h4>
+        <button type='button' class='btn-close' aria-label='Close' (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Introduzca el código o el nombre del producto.</p>
+        <input class="clientList" list="clients" [(ngModel)]="productFilter.input" (input)="updateProductFilter()">
+        <datalist id="clients">
+            <option *ngFor="let product of productFilter.results" [value]="product.Codigo">{{ product.Descripcion }}</option>
+        </datalist>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-primary" (click)="executeProductFilter()">Filtrar Producto</button>
     </div>
 </ng-template>
