@@ -77,7 +77,8 @@
             }
         }
     }
-    .table, .fullscreentable {
+    .table,
+    .fullscreentable {
         display: flex;
         flex-direction: column;
         grid-column: 1/-1;
@@ -85,12 +86,11 @@
         justify-content: start;
         align-items: start;
         gap: 8px;
-        min-height: 360px;
-        height: fit-content;
+        // min-height: 360px;
+        // height: fit-content;
         .title {
             display: flex;
             justify-content: space-between;
-            
             .dropdown {
                 position: sticky;
                 top: 0;
@@ -136,8 +136,7 @@
                 .categFlt {
                     display: flex;
                     flex-direction: column;
-                    .title {
-                    }
+                    .title {}
                     .categContent {
                         display: flex;
                         flex-direction: column;
@@ -195,7 +194,6 @@
                         position: sticky;
                         position: -webkit-sticky;
                         left: 0;
-                        
                     }
                 }
             }
@@ -252,7 +250,6 @@
             }
         }
     }
-
     .fullscreentable {
         display: flex;
         flex-direction: column;
@@ -284,7 +281,6 @@
             .group {
                 display: none;
             }
-            
         }
         .buttonGroup {
             display: flex;
@@ -383,7 +379,6 @@
             }
         }
     }
-
     .table-rotate {
         grid-row: 1/-1;
         >section {
@@ -401,6 +396,12 @@
             aspect-ratio: 1;
             max-height: 100%;
         }
+    }
+    .mark {
+        width: 60px;
+        position: relative;
+        top: -32px;
+        background-color: transparent;
     }
 }
 
@@ -443,7 +444,7 @@
         .table {
             grid-row: 3/4;
             section {
-                .title{
+                .title {
                     width: 100%
                 }
             }
@@ -454,7 +455,6 @@
                 position: sticky;
                 right: 0;
             }
-
         }
         .table-rotate {
             grid-row: 1/-1;
@@ -493,9 +493,9 @@
 }
 
 @media ( width < 880px) {
-
     .layout {
-        .table, .fullscreentable {
+        .table,
+        .fullscreentable {
             .actionGroup {
                 gap: 4px;
                 .dropdown {
@@ -541,7 +541,6 @@
     .stickyCol {
         font-size: 11px;
         white-space: normal;
-        
     }
     .tiny {
         display: block !important;
