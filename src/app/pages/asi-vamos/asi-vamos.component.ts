@@ -115,6 +115,16 @@ export default class AsiVamosComponent implements AfterViewInit {
     UEN: false
   }
 
+  equivalences: any = {
+    ValorMes: 'valorMes',
+    VlrPedPend: 'valorPedPend',
+    TonMes: 'tonMes',
+    TonPedPend: 'tonPedPend',
+    PlanDValor: 'planDValor',
+    PlanDTon: 'planDTon',
+    PrecTon: 'precTon'
+  }
+
   constructor(private gridService: CrudService, private formatService: FormatService, public asiVamosService: AsiVamosService, private route: ActivatedRoute, private modalService: NgbModal) {
     this.initialize();
     effect(() => {
@@ -152,7 +162,7 @@ export default class AsiVamosComponent implements AfterViewInit {
     })
     this.userData = await this.asiVamosService.decryptToken(token);
     this.asiVamosService.dataClient.next(this.userData);
-    this.currentOrder = this.tableRef.nativeElement.children[0].children[0].children[1].textContent;
+    // this.currentOrder = this.equivalences[this.tableRef.nativeElement.children[0].children[0].children[1].textContent];
     this.getRecords(this.userData.Vendedor, this.formatService.formatDate(this.currentDate, true, true), this.currentActive);
   }
   
@@ -176,25 +186,26 @@ export default class AsiVamosComponent implements AfterViewInit {
           rec.precTon = (rec.valorMes ) / rec.tonMes;
           rec.precTonPpto = (rec.valorPpto ) / rec.tonMesPpto;
           rec.ptCumpl = (rec.precTon ) / rec.precTonPpto;
-
         })
         this.updateTotals();
         this.updateData(res);
         Object.keys(this.loading).forEach(categ => {
           this.loading[categ] = false;
         })
-        this.orderCol(this.tableRef.nativeElement.children[0].children[0].children[1].textContent)
+        console.log('Ordenando por: ', this.equivalences[this.tableRef.nativeElement.children[0].children[0].children[1].textContent]);
+        this.orderCol(this.equivalences[this.tableRef.nativeElement.children[0].children[0].children[1].textContent])
       }
     })
   }
 
   updateTotals() {
     Object.keys(this.totals).forEach(agr => {
-      this.totals[agr] = this.records.reduce((acc: number, cv: any) => acc+cv[agr], 0);
+      this.totals[agr] = this.records.reduce((acc: number, cv: any) => acc + (cv[agr] || 0), 0);
     })
   }
 
   setCurrent(current: string) {
+    this.currentOrder = "";
     this.currentActive = current;
     Object.keys(this.totals).forEach(total => {
       this.totals[total] = 0;
@@ -243,9 +254,9 @@ export default class AsiVamosComponent implements AfterViewInit {
   orderCol(col: string) {
 
     this.records.sort((a: any, b: any) => {
-      if(b[col] > a[col]) {
+      if(b[col] < a[col]) {
         return col === this.currentOrder ? 1 : -1;
-      }else if(b[col] < a[col]){
+      }else if(b[col] > a[col]){
         return col === this.currentOrder ? -1 : 1;
       }else{
         return 0

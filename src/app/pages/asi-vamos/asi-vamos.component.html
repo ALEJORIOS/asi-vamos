@@ -177,7 +177,7 @@
                                 <th *ngIf="showColumns.pedPendTon" style="text-align: end;" title="Tonelada pedidos pendientes" (click)="orderCol('tonPedPend')">TonPedPend</th>
                                 <th *ngIf="showColumns.pedPendTon" style="text-align: end;" class="rb" title="Cumplimiento" (click)="orderCol('tpCump')">Cumpl</th>
                                 <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor" (click)="orderCol('planDValor')">PlanDValor</th>
-                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb"  (click)="orderCol('vdCump')">Cump</th>
+                                <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('vdCump')">Cump</th>
                                 <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda" (click)="orderCol('planDTon')">PlanDTon</th>
                                 <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tdCump')">Cump</th>
                                 <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada" (click)="orderCol('precTon')">PrecTon</th>
@@ -205,7 +205,7 @@
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ record.ptCumpl | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ record.ptCumpl | percent: "1.0-0" }}</td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -227,7 +227,7 @@
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -253,7 +253,7 @@
                         <button ngbDropdownItem (click)="setCurrent('Segmento')">Segmento</button>
                         <button ngbDropdownItem (click)="setCurrent('Cliente')">Cliente</button>
                         <button ngbDropdownItem (click)="setCurrent('Producto')">Producto</button>
-                        
+
                     </div>
                 </div>
                 <button type="button" class="btn btn-outline-primary big" (click)="toggleFullscreen()">
@@ -363,7 +363,7 @@
                             <th *ngIf="showColumns.pedPendTon" style="text-align: end;" title="Tonelada pedidos pendientes" (click)="orderCol('tonPedPend')">TonPedPend</th>
                             <th *ngIf="showColumns.pedPendTon" style="text-align: end;" class="rb" title="Cumplimiento" (click)="orderCol('tpCump')">Cumpl</th>
                             <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda valor" (click)="orderCol('planDValor')">PlanDValor</th>
-                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb"  (click)="orderCol('vdCump')">Cump</th>
+                            <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('vdCump')">Cump</th>
                             <th *ngIf="showColumns.plan" style="text-align: end;" title="Plan demanda" (click)="orderCol('planDTon')">PlanDTon</th>
                             <th *ngIf="showColumns.plan" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('tdCump')">Cump</th>
                             <th *ngIf="showColumns.precTon" style="text-align: end;" title="Precio por tonelada" (click)="orderCol('precTon')">PrecTon</th>
@@ -391,7 +391,7 @@
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ record.ptCumpl | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ record.ptCumpl | percent: "1.0-0" }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -413,7 +413,7 @@
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb" >{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -425,11 +425,11 @@
 <filter-box></filter-box>
 
 <ng-template #preview let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Filtros actuales</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
-	<div class="modal-body">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Filtros actuales</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
 
         <div class="box" *ngIf="thereAreFilters()">
             <div class="categFlt" *ngIf="filters?.Filtro?.Canal?.length">
@@ -494,5 +494,5 @@
             </div>
         </div>
         <div *ngIf="!thereAreFilters()">No hay filtros para mostrar</div>
-	</div>
+    </div>
 </ng-template>
