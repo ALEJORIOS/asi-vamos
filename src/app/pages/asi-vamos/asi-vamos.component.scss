@@ -187,6 +187,7 @@
                     border: none;
                     border-bottom: 1px solid #1199F4;
                     user-select: none;
+                    cursor: pointer;
                     th {
                         background-color: #D2ECFD;
                     }
@@ -194,6 +195,7 @@
                         position: sticky;
                         position: -webkit-sticky;
                         left: 0;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
                     }
                 }
             }
@@ -212,6 +214,9 @@
                     }
                     &:hover {
                         background-color: #1199F410;
+                        .stickyCol {
+                            background-color: #F0F9FE;
+                        }
                     }
                     .stickyCol {
                         position: sticky;
@@ -219,6 +224,7 @@
                         background-color: #fff;
                         left: 0;
                         font-weight: 600;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
                     }
                 }
                 tr.tableTitle {
@@ -237,6 +243,7 @@
                         position: -webkit-sticky;
                         background-color: #D2ECFD;
                         left: 0;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
                     }
                 }
             }
@@ -324,6 +331,7 @@
                         position: sticky;
                         position: -webkit-sticky;
                         left: 0;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
                     }
                 }
             }
@@ -340,14 +348,18 @@
                         padding: 0;
                         padding-right: 12px;
                     }
-                    &:hover {
-                        background-color: #1199F410;
-                    }
                     .stickyCol {
                         position: sticky;
                         position: -webkit-sticky;
                         background-color: #fff;
                         left: 0;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
+                    }
+                    &:hover {
+                        background-color: #1199F410;
+                        .stickyCol {
+                            background-color: #F0F9FE;
+                        }
                     }
                 }
                 tr.tableTitle {
@@ -366,6 +378,7 @@
                         position: -webkit-sticky;
                         background-color: #D2ECFD;
                         left: 0;
+                        box-shadow: inset -1px 0px 0px 0px #1199F4;
                     }
                 }
             }
@@ -554,6 +567,7 @@
     .stickyCol {
         font-size: 11px;
         white-space: normal;
+        box-shadow: inset -1px 0px 0px 0px #1199F4;
     }
     .tiny {
         display: block !important;

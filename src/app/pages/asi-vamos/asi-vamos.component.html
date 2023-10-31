@@ -168,8 +168,8 @@
                 <div class="content">
                     <table #tableRef>
                         <thead>
-                            <tr style="cursor: none;">
-                                <th class="rb stickyCol">{{ currentActive }}</th>
+                            <tr>
+                                <th class="stickyCol">{{ currentActive }}</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor Mes" (click)="orderCol('valorMes')">ValorMes</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;" title="Valor presupuestado" (click)="orderCol('valorPpto')">ValorPpto</th>
                                 <th *ngIf="showColumns.valor" style="text-align: end;" title="Cumplimiento" class="rb" (click)="orderCol('vCump')">Cumpl</th>
@@ -191,46 +191,46 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let record of records">
-                                <td *ngIf="currentActive === 'Cliente'" class="rb stickyCol" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.agrupacion }}</td>
-                                <td *ngIf="currentActive !== 'Cliente'" class="rb stickyCol" noWrap>{{ record.agrupacion }}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="currentActive === 'Cliente'" class="stickyCol" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.agrupacion }}</td>
+                                <td *ngIf="currentActive !== 'Cliente'" class="stickyCol" noWrap>{{ record.agrupacion }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ record.vCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ record.pCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ record.tCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tpCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.vdCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ record.ptCumpl | percent: "1.0-0" }}</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="rb stickyCol">Totales</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.1-2" }}</td>
+                                <td class="stickyCol">Totales</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ totals.valorMes / totals.valorPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ (totals.valorMes + totals.valorPedPend) / totals.valorPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ totals.tonMes / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.tonPedPend / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDValor / totals.valorPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
-                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.2-2" }}</td>
+                                <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.2-2" }}</td>
                                 <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                             </tr>
                         </tfoot>
@@ -240,7 +240,7 @@
         </section>
     </div>
 
-    <img class="mark" src="assets/BSSLOGO_GREY.png">
+    <img class="mark" src="https://www.brinsadigital.com.co/bss-gray.svg">
     <div *ngIf="fullscreen" class="fullscreentable">
         <div class="title">
             <h3 style="margin: 0; justify-self: center;">Mes Actual <span *ngIf="asiVamosService.allDirectors().current !== 0">- {{ asiVamosService.allDirectors().current }}</span></h3>
@@ -385,44 +385,44 @@
                         <tr *ngFor="let record of records">
                             <td *ngIf="currentActive === 'Cliente'" class="rb stickyCol" noWrap><a style="color: #1199F4" title="Dashboard" target="_blank" [href]="linkToDashboard(record.agrupacion.split(' ')[0])"><i class="fa-duotone fa-chart-simple"></i></a> {{ record.agrupacion }}</td>
                             <td *ngIf="currentActive !== 'Cliente'" class="rb stickyCol" noWrap>{{ record.agrupacion }}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorMes | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ record.valorPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ record.vCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ record.valorPedPend | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ record.pCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMes | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ record.tonMesPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ record.tCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.tonPedPend | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tpCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDValor | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.vdCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ record.planDTon | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ record.tdCump | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTon | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ record.precTonPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ record.ptCumpl | percent: "1.0-0" }}</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td class="rb stickyCol">Totales</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorMes | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.valor" style="text-align: end;">{{ totals.valorPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.valor" style="text-align: end;" class="rb">{{ totals.valorMes / totals.valorPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.pedPend" style="text-align: end;">{{ totals.valorPedPend | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.pedPend" style="text-align: end;" class="rb">{{ (totals.valorMes + totals.valorPedPend) / totals.valorPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMes | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.tonelada" style="text-align: end;">{{ totals.tonMesPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.tonelada" style="text-align: end;" class="rb">{{ totals.tonMes / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.tonPedPend | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.tonPedPend / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDValor | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDValor / totals.valorPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.plan" style="text-align: end;">{{ totals.planDTon| number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.plan" style="text-align: end;" class="rb">{{ totals.planDTon / totals.tonMesPpto | percent: "1.0-0" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.1-2" }}</td>
-                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.1-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTon | number: "1.2-2" }}</td>
+                            <td *ngIf="showColumns.precTon" style="text-align: end;">{{ totals.precTonPpto | number: "1.2-2" }}</td>
                             <td *ngIf="showColumns.precTon" style="text-align: end;" class="rb">{{ totals.precTon / totals.precTonPpto | percent: "1.0-0" }}</td>
                         </tr>
                     </tfoot>
